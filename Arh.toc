@@ -1,10 +1,10 @@
 ## Interface: 100000
-## Title: Arh |cFF0099FF[FanUpdate for DF]|r
-## Author: Harrisan stole this, fans maintained this
+## Title: Arhaeology Helper |cFF0099FF[FanUpdate for DF]|r
+## Author: Biasha and oscarucb wrote it, fans maintained this
 ## Notes: Help you with your excavations with love.
-## Version: 2.0a
+## Version: 2.0b
 ## X-Build: 1
-## X-ReleaseDate: 2022-01-04T11:00:00Z
+## X-ReleaseDate: 2022-11-03T11:00:00Z
 ## DefaultState: Enabled
 ## OptionalDeps: GatherMate2, LibDataBroker-1.1, LibDBIcon-1.0
 ## X-Embeds: Ace3, LibDataBroker-1.1, LibDBIcon-1.0
