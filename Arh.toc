@@ -1,5 +1,5 @@
 ## Interface: 100000
-## Title: Corah |cFF0099FF[FanUpdate for DF]|r
+## Title: Arh |cFF0099FF[FanUpdate for DF]|r
 ## Author: Harrisan stole this, fans maintained this
 ## Notes: Help you with your excavations with love.
 ## Version: 2.0a
@@ -8,7 +8,7 @@
 ## DefaultState: Enabled
 ## OptionalDeps: GatherMate2, LibDataBroker-1.1, LibDBIcon-1.0
 ## X-Embeds: Ace3, LibDataBroker-1.1, LibDBIcon-1.0
-## SavedVariables: Corah_Config
+## SavedVariables: Arh_Config
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
 
@@ -16,5 +16,5 @@ embeds.xml
 
 locale.lua
 
-corah.lua
-corah.xml
+arh.lua
+arh.xml

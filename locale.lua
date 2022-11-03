@@ -1,7 +1,7 @@
 -- my custom locale file - more streamlined than AceLocale and no lib dependency
 
 -- To help with missing translations please go here:
-local url = "http://wow.curseforge.com/addons/corah/localization/"
+local url = "http://wow.curseforge.com/addons/arh/localization/"
 
 local addonName, vars = ...
 local Ld, La = {}, {}

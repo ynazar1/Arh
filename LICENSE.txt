@@ -1,1 +1,4 @@
-All Rights Reserved unless otherwise explicitly stated.
+Original parts of Arh addon Rights are Reserved by their respective authors.
+Updated Parts are under MIT licence.
+Sounds/Graphics are under fair use.
+Just don't copy this thing without giving credit.

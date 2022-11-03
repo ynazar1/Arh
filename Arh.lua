@@ -1,11 +1,11 @@
 local addonName, vars = ...
 local L = vars.L
-Corah = {}
-local addon = Corah
+Arh = {}
+local addon = Arh
 addon.vars = vars
 vars.svnrev = vars.svnrev or {}
 local svnrev = vars.svnrev
-svnrev["Corah.lua"] = tonumber(("$Revision: 107 $"):match("%d+"))
+svnrev["Arh.lua"] = tonumber(("$Revision: 107 $"):match("%d+"))
 
 local Config = nil -- AceConfig-3.0
 local minimapIcon = LibStub("LibDBIcon-1.0")
@@ -13,22 +13,22 @@ local LDB, LDBo
 
 local cfg = nil
 
-local CORAH_GREEN = 1
-local CORAH_YELLOW = 2
-local CORAH_RED = 3
+local ARH_GREEN = 1
+local ARH_YELLOW = 2
+local ARH_RED = 3
 local id2cname = {
-  [CORAH_GREEN] = "Green",
-  [CORAH_YELLOW] = "Yellow",
-  [CORAH_RED] = "Red",
+  [ARH_GREEN] = "Green",
+  [ARH_YELLOW] = "Yellow",
+  [ARH_RED] = "Red",
 }
 local id2rgb = {
-  [CORAH_GREEN] =  { 0, 1, 0 },
-  [CORAH_YELLOW] = { 0.5, 0.5, 0 },
-  [CORAH_RED] =    { 1, 0, 0 },
+  [ARH_GREEN] =  { 0, 1, 0 },
+  [ARH_YELLOW] = { 0.5, 0.5, 0 },
+  [ARH_RED] =    { 1, 0, 0 },
 }
 addon.colorButton = {}
 
-local CONYARDS = {[CORAH_GREEN] = 40, [CORAH_YELLOW] = 80, [CORAH_RED] = 640}
+local CONYARDS = {[ARH_GREEN] = 40, [ARH_YELLOW] = 80, [ARH_RED] = 640}
 
 local minimap_size =
 {
@@ -146,16 +146,16 @@ local function DigsiteUpdate(self, elapsed)
   end
 end
 
-addon.hiddenFrame = CreateFrame("Button", "CorahHiddenFrame", UIParent)
+addon.hiddenFrame = CreateFrame("Button", "ArhHiddenFrame", UIParent)
 addon.hiddenFrame:SetScript("OnUpdate",DigsiteUpdate)
 
 function addon:ToggleMainFrame(enable)
 	if enable ~= nil then
 		cfg.MainFrame.Visible = enable
 	else
-		cfg.MainFrame.Visible = not Corah_MainFrame:IsVisible()
+		cfg.MainFrame.Visible = not Arh_MainFrame:IsVisible()
 	end
-	if not InCombatLockdown() then SetVisible(Corah_MainFrame, cfg.MainFrame.Visible) end
+	if not InCombatLockdown() then SetVisible(Arh_MainFrame, cfg.MainFrame.Visible) end
 	addon:ToggleHUD(cfg.MainFrame.Visible)
 	if cfg.MainFrame.Visible then
 		PlaySound(SOUND_SHOWMAINFRAME)
@@ -168,11 +168,11 @@ function addon:ToggleHUD(enable)
 	if enable ~= nil then
 		cfg.HUD.Visible = enable
 	else
-		cfg.HUD.Visible = not Corah_HudFrame:IsVisible()
+		cfg.HUD.Visible = not Arh_HudFrame:IsVisible()
 	end
-	Corah_MainFrame_ButtonDig.Canceled = not cfg.HUD.Visible
-	SetVisible(Corah_MainFrame_ButtonDig.CanceledTexture, not cfg.HUD.Visible)
-	SetVisible(Corah_HudFrame, cfg.HUD.Visible)
+	Arh_MainFrame_ButtonDig.Canceled = not cfg.HUD.Visible
+	SetVisible(Arh_MainFrame_ButtonDig.CanceledTexture, not cfg.HUD.Visible)
+	SetVisible(Arh_HudFrame, cfg.HUD.Visible)
         addon.suppress = false -- manual override disables suppression
 	--[[
 	if cfg.HUD.Visible then
@@ -199,12 +199,12 @@ function addon:CheckSuppress()
     shouldsuppress = true
   end
   if shouldsuppress and not addon.suppress then -- begin suppress
-    if not InCombatLockdown() then SetVisible(Corah_MainFrame, false) end
-    SetVisible(Corah_HudFrame, false)
+    if not InCombatLockdown() then SetVisible(Arh_MainFrame, false) end
+    SetVisible(Arh_HudFrame, false)
     addon.suppress = true  
   elseif not shouldsuppress and addon.suppress then -- end suppress
-    if not InCombatLockdown() then SetVisible(Corah_MainFrame, cfg.MainFrame.Visible) end
-    SetVisible(Corah_HudFrame, cfg.HUD.Visible)
+    if not InCombatLockdown() then SetVisible(Arh_MainFrame, cfg.MainFrame.Visible) end
+    SetVisible(Arh_HudFrame, cfg.HUD.Visible)
     addon.suppress = false
   end
 end
@@ -213,7 +213,7 @@ function addon:Config()
     if InterfaceOptionsFrame:IsShown() then
         InterfaceOptionsFrame:Hide()
     else
-	InterfaceOptionsFrame_OpenToCategory("Corah")
+	InterfaceOptionsFrame_OpenToCategory("Arh")
     end
 end
 
@@ -233,7 +233,7 @@ local function cs(str)
 	return "|cffffff78"..str.."|r"
 end
 
-Corah_DefaultConfig =
+Arh_DefaultConfig =
 {
 	MainFrame =
 	{
@@ -292,7 +292,7 @@ Corah_DefaultConfig =
 }
 
 -- label bindings
-BINDING_HEADER_CORAH = L["Archaeology Helper"]
+BINDING_HEADER_ARH = L["Archaeology Helper"]
 local bindings = {
   { name="Dig:Left", 	desc=L["Cast Survey"], },
   { name="SHOWARCH", 	desc=L["Open archaeology window"] },
@@ -308,9 +308,9 @@ end
 for _, info in ipairs(bindings) do
   local bindname
   if info.name:find(":") then
-    info.bindname = string.format("CLICK Corah_MainFrame_Button%sButton",info.name)
+    info.bindname = string.format("CLICK Arh_MainFrame_Button%sButton",info.name)
   else
-    info.bindname = string.format("CORAH_%s",info.name)
+    info.bindname = string.format("ARH_%s",info.name)
   end
   _G["BINDING_NAME_"..info.bindname] = info.desc
 end
@@ -319,23 +319,23 @@ function addon:ResetSettings()
 	local c
 
 -- MainFrame
-	SetVisible(Corah_MainFrame, cfg.MainFrame.Visible)
-    Corah_MainFrame:SetScale(cfg.MainFrame.Scale)
-	Corah_MainFrame:SetAlpha(cfg.MainFrame.Alpha)
-	Corah_MainFrame:ClearAllPoints()
-	Corah_MainFrame:SetPoint("CENTER")
+	SetVisible(Arh_MainFrame, cfg.MainFrame.Visible)
+    Arh_MainFrame:SetScale(cfg.MainFrame.Scale)
+	Arh_MainFrame:SetAlpha(cfg.MainFrame.Alpha)
+	Arh_MainFrame:ClearAllPoints()
+	Arh_MainFrame:SetPoint("CENTER")
 
 	-- HUD
-	Corah_SetUseGatherMate2(cfg.HUD.UseGatherMate2)
+	Arh_SetUseGatherMate2(cfg.HUD.UseGatherMate2)
 	addon:HUD_config_update()
-	Corah_UpdateHudFrameSizes(true)
+	Arh_UpdateHudFrameSizes(true)
 
 	-- Annulus Sectors
 	addon:UpdateAlphaEverything()
 	addon:ToggleHUD(cfg.HUD.Visible)
 
 -- Dig Sites
-	SetVisible(Corah_ArchaeologyDigSites_BattlefieldMinimap, cfg.DigSites.ShowOnBattlefieldMinimap)
+	SetVisible(Arh_ArchaeologyDigSites_BattlefieldMinimap, cfg.DigSites.ShowOnBattlefieldMinimap)
 
 end
 
@@ -376,8 +376,8 @@ local OptionsTable =
 				confirmText = L["This will overwrite current settings!"],
 				func =
 						function()
-							Corah_Config = CopyByValue(Corah_DefaultConfig)
-							cfg = Corah_Config
+							Arh_Config = CopyByValue(Arh_DefaultConfig)
+							cfg = Arh_Config
 							addon:ResetSettings()
 						end,
 			},
@@ -414,8 +414,8 @@ local OptionsTable =
 								confirmText = L["This will reset Main Window position"],
 								func =
 										function()
-											Corah_MainFrame:ClearAllPoints()
-											Corah_MainFrame:SetPoint("CENTER")
+											Arh_MainFrame:ClearAllPoints()
+											Arh_MainFrame:SetPoint("CENTER")
 										end,
 							},
 							Visible =
@@ -493,7 +493,7 @@ local OptionsTable =
 								set =
 									function(info, val)
 										cfg.MainFrame.Scale = val
-										Corah_MainFrame:SetScale(val)
+										Arh_MainFrame:SetScale(val)
 									end,
 							},
 							Alpha =
@@ -509,7 +509,7 @@ local OptionsTable =
 								set =
 									function(info, val)
 										cfg.MainFrame.Alpha = val
-										Corah_MainFrame:SetAlpha(val)
+										Arh_MainFrame:SetAlpha(val)
 									end,
 							},
 							ShowTooltips =
@@ -533,7 +533,7 @@ local OptionsTable =
 								set =
 									function(info, val)
 										cfg.MainFrame.TooltipsScale = val
-										Corah_Tooltip:SetScale(val)
+										Arh_Tooltip:SetScale(val)
 									end,
 							},
 						},
@@ -598,7 +598,7 @@ local OptionsTable =
 						      name = info.desc,
 						      arg = info.bindname,
 						      desc = info.alias and string.format(L["You can also use %s command for this action"], 
-						                            string.format("|cff69ccf0/corah %s|r", info.alias))
+						                            string.format("|cff69ccf0/arh %s|r", info.alias))
 						             or info.desc,
 						    }
 						  end
@@ -633,7 +633,7 @@ local OptionsTable =
 								width = "full",
 								disabled = function(info) return not GatherMate2 end,
 								get = function(info) return cfg.HUD.UseGatherMate2 end,
-								set = function(info,val) Corah_SetUseGatherMate2(val) end,
+								set = function(info,val) Arh_SetUseGatherMate2(val) end,
 							},
 							ArchOnly = {
 								order = 1.5,
@@ -783,7 +783,7 @@ local OptionsTable =
 								set =
 									function(info,val)
 										cfg.HUD.CompassRadius = val
-										Corah_UpdateHudFrameSizes(true)
+										Arh_UpdateHudFrameSizes(true)
 									end,
 							},
 							CompassColor =
@@ -888,14 +888,14 @@ local OptionsTable =
 						set =
 							function(info,val)
 								cfg.DigSites.ShowOnBattlefieldMinimap = val
-								SetVisible(Corah_ArchaeologyDigSites_BattlefieldMinimap, val)
+								SetVisible(Arh_ArchaeologyDigSites_BattlefieldMinimap, val)
 							end,
 					},
 					ShowOnMinimap =
 					{
 						order = 2,
 						name = L["Show digsites on the Minimap"],
-						desc = string.format(L["You can also use %s command for this action"],"|cff69ccf0/corah mm|r"),
+						desc = string.format(L["You can also use %s command for this action"],"|cff69ccf0/arh mm|r"),
 						type = "toggle",
 						width = "full",
 						get = function(info) return addon:GetDigsiteTracking() end,
@@ -907,7 +907,7 @@ local OptionsTable =
 		}
 }
 
-function Corah_ShowTooltip(self)
+function Arh_ShowTooltip(self)
 	if not cfg.MainFrame.ShowTooltips then return end
 	if not self.TooltipText then return end
 
@@ -918,17 +918,17 @@ function Corah_ShowTooltip(self)
 		text = self.TooltipText(self)
 		if not text then return end
 	end
-	Corah_Tooltip:SetScale(cfg.MainFrame.TooltipsScale)
-	Corah_Tooltip:SetOwner(self, "ANCHOR_CURSOR")
-	Corah_Tooltip:AddLine(text, 1, 1, 1)
-	Corah_Tooltip:Show()
+	Arh_Tooltip:SetScale(cfg.MainFrame.TooltipsScale)
+	Arh_Tooltip:SetOwner(self, "ANCHOR_CURSOR")
+	Arh_Tooltip:AddLine(text, 1, 1, 1)
+	Arh_Tooltip:Show()
 end
-function Corah_HideTooltip(self)
-	Corah_Tooltip:Hide()
+function Arh_HideTooltip(self)
+	Arh_Tooltip:Hide()
 end
 
 local function SetTooltips()
-	Corah_MainFrame.TooltipText =
+	Arh_MainFrame.TooltipText =
 		function(self)
 			if cfg.MainFrame.Locked then
 				return cs(L["Right Click"])..": "..L["Show/Hide Config"]
@@ -941,10 +941,10 @@ local function SetTooltips()
 	  button.TooltipText = cs(L["Left Click"])..": "..L["add new %s zone to the HUD"]:format(L[cname]).."\n"..
                                cs(L["Right Click"])..": "..L["show/hide all %s areas on the HUD"]:format(L[cname])
 	end
-	Corah_MainFrame_ButtonDig.TooltipText = cs(L["Left Click"])..": "..L["cast Survey"].."\n"..
+	Arh_MainFrame_ButtonDig.TooltipText = cs(L["Left Click"])..": "..L["cast Survey"].."\n"..
                                               cs(L["Right Click"])..": "..L["Show/Hide the HUD"].."\n"..
                                               cs(L["Middle Click"])..": "..L["Open archaeology window"]
-	Corah_MainFrame_ButtonBack.TooltipText = cs(L["Left Click"])..": "..L["remove one previously added area"]
+	Arh_MainFrame_ButtonBack.TooltipText = cs(L["Left Click"])..": "..L["remove one previously added area"]
 end
 
 local function RotateTexture(item, angle)
@@ -961,7 +961,7 @@ local function CreateConTexture(parent, color)
 	local t = parent:CreateTexture()
 	t:SetBlendMode("ADD")
 	t:SetPoint("CENTER", parent, "CENTER", 0, 0)
-	t:SetTexture("Interface\\AddOns\\Corah\\img\\con1024_"..color)
+	t:SetTexture("Interface\\AddOns\\Arh\\img\\con1024_"..color)
 	t:Show()
 
 	return t
@@ -971,7 +971,7 @@ local function CreateLineTexture(parent, contexture, color)
 	local t = parent:CreateTexture()
 	t:SetBlendMode("ADD")
 	t:SetPoint("CENTER", contexture, "CENTER", 0, 0)
-	t:SetTexture("Interface\\AddOns\\Corah\\img\\line1024_"..color)
+	t:SetTexture("Interface\\AddOns\\Arh\\img\\line1024_"..color)
 	t:Show()
 
 	return t
@@ -984,7 +984,7 @@ local function SetTextureColor(texture, color, isline)
 end
 
 local function PixelsInYardOnHud_Calc()
-	local mapSizePix = Corah_HudFrame:GetHeight()
+	local mapSizePix = Arh_HudFrame:GetHeight()
 
 	local zoom = Minimap:GetZoom()
 	--local indoors = GetCVar("minimapZoom")+0 == Minimap:GetZoom() and "outdoor" or "indoor"
@@ -1025,7 +1025,7 @@ local function UpdateConAndLine(texture_con, texture_line, color)
 	texture_line:Show()
 end
 
-addon.ConsCache = {[CORAH_GREEN] = {}, [CORAH_YELLOW] = {}, [CORAH_RED] = {} }
+addon.ConsCache = {[ARH_GREEN] = {}, [ARH_YELLOW] = {}, [ARH_RED] = {} }
 addon.ConsArray = {}
 local function GetCached(color)
 	local cnt = #addon.ConsCache[color]
@@ -1063,8 +1063,8 @@ local function AddCon(color, x, y, a)
 	local item = GetCached(color)
 	if not item then
 	  item = {}
-	  item.texture = CreateCon(Corah_HudFrame, color)
-	  item.texture_line = CreateLine(Corah_HudFrame, color, item.texture)
+	  item.texture = CreateCon(Arh_HudFrame, color)
+	  item.texture_line = CreateLine(Arh_HudFrame, color, item.texture)
 	end
 	item.color = color
 	item.x = x
@@ -1106,8 +1106,8 @@ function addon:UpdateConsPositions(player_x, player_y, player_a)
 	
 		--item.texture:ClearAllPoints()
 		-- 4000 = too fast
-		item.texture:SetPoint("CENTER", Corah_HudFrame, "CENTER", x*PixelsInYardOnHud, -y*PixelsInYardOnHud)
-		--item.texture:SetPoint("CENTER", Corah_HudFrame, "CENTER", -25, -75)
+		item.texture:SetPoint("CENTER", Arh_HudFrame, "CENTER", x*PixelsInYardOnHud, -y*PixelsInYardOnHud)
+		--item.texture:SetPoint("CENTER", Arh_HudFrame, "CENTER", -25, -75)
 		RotateTexture(item, rot)
 	end
 end
@@ -1301,7 +1301,7 @@ local function ToggleColorButton(self, enable)
 	end
 end
 
-function Corah_MainFrame_ColorButton_OnMouseDown(self, button)
+function Arh_MainFrame_ColorButton_OnMouseDown(self, button)
   if button == "LeftButton" then
     local id = self:GetID()
     AddPoint(id)
@@ -1314,7 +1314,7 @@ function Corah_MainFrame_ColorButton_OnMouseDown(self, button)
   end
 end
 
-function Corah_MainFrame_ButtonBack_OnMouseDown(self, button)
+function Arh_MainFrame_ButtonBack_OnMouseDown(self, button)
 	if button == "LeftButton" then
 		addon:ReturnLastToCache()
 		PlaySound(SOUND_BACK)
@@ -1334,11 +1334,11 @@ function addon:SaveDifs()
 		while ad < 0 do ad = ad + 2*math.pi end
 		if ad > math.pi then ad = ad - 2*math.pi end
 
-		if Corah_Data == nil then
-			Corah_Data = {["next"]=1, ["items"]={}}
+		if Arh_Data == nil then
+			Arh_Data = {["next"]=1, ["items"]={}}
 		end
-		Corah_Data.items[Corah_Data.next] = {[1]=item.color, [2]=jad, [3]=ad}
-		Corah_Data.next = Corah_Data.next + 1
+		Arh_Data.items[Arh_Data.next] = {[1]=item.color, [2]=jad, [3]=ad}
+		Arh_Data.next = Arh_Data.next + 1
 	end
 end
 
@@ -1376,7 +1376,7 @@ function addon:init_travelform()
   end
 end
 
-function Corah_MainFrame_ButtonDig_OnMouseDown(self, button)
+function Arh_MainFrame_ButtonDig_OnMouseDown(self, button)
 	if button == "LeftButton" then
 	elseif button == "RightButton" then
 		addon:ToggleHUD()
@@ -1389,7 +1389,7 @@ local function OnHelp()
 	local function os(str1, str2)
 		return cs(str1)..", "..cs(str2)
 	end
-	print("Arguments to "..cs("/corah")..":")
+	print("Arguments to "..cs("/arh")..":")
 	print("  "..os("toggle","t").." - "..L["Show/Hide the Main Window"])
 	print("  "..os("hud","h").." - "..L["Show/Hide the HUD"])
 	print("  "..os("addred","ar").." - "..	 	L["add new %s zone to the HUD"]:format(L["red"]))
@@ -1413,22 +1413,22 @@ local function handler(msg, editbox)
 		addon:ToggleHUD()
 
 	elseif msg=='addred' or msg=='ar' then
-	  	Corah_MainFrame_ColorButton_OnMouseDown(Corah_MainFrame_ButtonRed, "LeftButton")
+	  	Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonRed, "LeftButton")
 	elseif msg=='addyellow' or msg=='ay' then
-	  	Corah_MainFrame_ColorButton_OnMouseDown(Corah_MainFrame_ButtonYellow, "LeftButton")
+	  	Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonYellow, "LeftButton")
 	elseif msg=='addgreen' or msg=='ag' then
-	  	Corah_MainFrame_ColorButton_OnMouseDown(Corah_MainFrame_ButtonGreen, "LeftButton")
+	  	Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonGreen, "LeftButton")
 
 
 	elseif msg=='togglered' or msg=='tr' then
-	  	Corah_MainFrame_ColorButton_OnMouseDown(Corah_MainFrame_ButtonRed, "RightButton")
+	  	Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonRed, "RightButton")
 	elseif msg=='toggleyellow' or msg=='ty' then
-	  	Corah_MainFrame_ColorButton_OnMouseDown(Corah_MainFrame_ButtonYellow, "RightButton")
+	  	Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonYellow, "RightButton")
 	elseif msg=='togglegreen' or msg=='tg' then
-	  	Corah_MainFrame_ColorButton_OnMouseDown(Corah_MainFrame_ButtonGreen, "RightButton")
+	  	Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonGreen, "RightButton")
 
 	elseif msg=='back' or msg=='b' then
-		Corah_MainFrame_ButtonBack_OnMouseDown(Corah_MainFrame_ButtonBack, "LeftButton")
+		Arh_MainFrame_ButtonBack_OnMouseDown(Arh_MainFrame_ButtonBack, "LeftButton")
 	elseif msg=='clear' or msg=='c' then
 		addon:ReturnAllToCache()
 
@@ -1439,11 +1439,11 @@ local function handler(msg, editbox)
 		addon:Config()
 	else
 		print("unknown command: "..msg)
-		print("use |cffffff78/corah|r for help on commands")
+		print("use |cffffff78/arh|r for help on commands")
 	end
 end
-SlashCmdList["CORAH"] = handler;
-SLASH_CORAH1 = "/corah"
+SlashCmdList["ARH"] = handler;
+SLASH_ARH1 = "/arh"
 
 --local function OnSpellSent(unit,spellcast,rank,target)
 local function OnSpellSent(unit,target,rank,spellcast)
@@ -1455,23 +1455,23 @@ local function OnSpellSent(unit,target,rank,spellcast)
 end
 
 local function OnAddonLoaded(name)
-	if name=="Corah" and not addon.init then
+	if name=="Arh" and not addon.init then
 		local start = debugprofilestop()
-		if not Corah_Config then
-			Corah_Config = CopyByValue(Corah_DefaultConfig)
+		if not Arh_Config then
+			Arh_Config = CopyByValue(Arh_DefaultConfig)
 		else
-			Corah_Config = GetNewestStructure(Corah_Config, Corah_DefaultConfig)
+			Arh_Config = GetNewestStructure(Arh_Config, Arh_DefaultConfig)
 		end
-		cfg = Corah_Config
-		Corah_HudFrame_Init()
-		Corah_MainFrame_Init()
-		--print(string.format("Corah Load time: %f ms",debugprofilestop()-start))
+		cfg = Arh_Config
+		Arh_HudFrame_Init()
+		Arh_MainFrame_Init()
+		--print(string.format("Arh Load time: %f ms",debugprofilestop()-start))
 		addon.init = true
 	end
 	addon:HookArchy()
 end
 
-function Corah_MainFrame_OnEvent(self, event, ...)
+function Arh_MainFrame_OnEvent(self, event, ...)
 	if event == "ADDON_LOADED" then
 		OnAddonLoaded(...)
 	elseif event == "UNIT_SPELLCAST_SENT" then
@@ -1484,8 +1484,8 @@ function Corah_MainFrame_OnEvent(self, event, ...)
 	end
 end
 
-function Corah_MainFrame_OnLoad()
-	Corah_MainFrame:RegisterEvent("ADDON_LOADED")
+function Arh_MainFrame_OnLoad()
+	Arh_MainFrame:RegisterEvent("ADDON_LOADED")
 end
 
 local function InitCancelableButton(self)
@@ -1499,11 +1499,11 @@ local function InitCancelableButton(self)
 	self.Canceled = false
 end
 
-function Corah_MainFrame_Init()
+function Arh_MainFrame_Init()
 	Config = LibStub("AceConfig-3.0")
 	ConfigDialog = LibStub("AceConfigDialog-3.0")
-	Config:RegisterOptionsTable("Archaeology Helper", OptionsTable, "corahcfg")
-	ConfigDialog:AddToBlizOptions("Archaeology Helper", "Corah")
+	Config:RegisterOptionsTable("Archaeology Helper", OptionsTable, "arhcfg")
+	ConfigDialog:AddToBlizOptions("Archaeology Helper", "Arh")
 
 	LDB = LibStub:GetLibrary("LibDataBroker-1.1",true)
    	LDBo = LDB:NewDataObject(addonName, {
@@ -1533,18 +1533,18 @@ function Corah_MainFrame_Init()
     	minimapIcon:Register(addonName, LDBo, cfg.Minimap)
 	minimapIcon:Refresh(addonName)
 
-	SetVisible(Corah_MainFrame, cfg.MainFrame.Visible)
-	Corah_MainFrame:SetScale(cfg.MainFrame.Scale)
-	Corah_MainFrame:SetAlpha(cfg.MainFrame.Alpha)
-	Corah_MainFrame:SetClampedToScreen(true)
-	Corah_MainFrame:ClearAllPoints()
+	SetVisible(Arh_MainFrame, cfg.MainFrame.Visible)
+	Arh_MainFrame:SetScale(cfg.MainFrame.Scale)
+	Arh_MainFrame:SetAlpha(cfg.MainFrame.Alpha)
+	Arh_MainFrame:SetClampedToScreen(true)
+	Arh_MainFrame:ClearAllPoints()
 	if cfg.MainFrame.point then
-		Corah_MainFrame:SetPoint(cfg.MainFrame.point, cfg.MainFrame.posX, cfg.MainFrame.posY)
+		Arh_MainFrame:SetPoint(cfg.MainFrame.point, cfg.MainFrame.posX, cfg.MainFrame.posY)
 	else
-		Corah_MainFrame:SetPoint("CENTER")
+		Arh_MainFrame:SetPoint("CENTER")
 	end
 
-	Corah_MainFrame:RegisterEvent("UNIT_SPELLCAST_SENT")
+	Arh_MainFrame:RegisterEvent("UNIT_SPELLCAST_SENT")
 	for _,evt in pairs({ "ZONE_CHANGED", "ZONE_CHANGED_INDOORS", "ZONE_CHANGED_NEW_AREA",
 	                     "PLAYER_UPDATE_RESTING", "PLAYER_ALIVE", "PLAYER_DEAD",
 			     "PET_BATTLE_OPENING_START", "PET_BATTLE_CLOSE", "PET_BATTLE_OVER",
@@ -1552,38 +1552,38 @@ function Corah_MainFrame_Init()
 			     "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED",
 			     "SPELLS_CHANGED"
 			     }) do
-		Corah_MainFrame:RegisterEvent(evt)
+		Arh_MainFrame:RegisterEvent(evt)
 	end
 	SetTooltips()
 
 	if BattlefieldMinimap then
-		Corah_ArchaeologyDigSites_BattlefieldMinimap:SetParent(BattlefieldMinimap)
-		Corah_ArchaeologyDigSites_BattlefieldMinimap:ClearAllPoints()
-		Corah_ArchaeologyDigSites_BattlefieldMinimap:SetPoint("TOPLEFT", BattlefieldMinimap)
-		Corah_ArchaeologyDigSites_BattlefieldMinimap:SetPoint("BOTTOMRIGHT", BattlefieldMinimap)
-		SetVisible(Corah_ArchaeologyDigSites_BattlefieldMinimap, cfg.DigSites.ShowOnBattlefieldMinimap)
+		Arh_ArchaeologyDigSites_BattlefieldMinimap:SetParent(BattlefieldMinimap)
+		Arh_ArchaeologyDigSites_BattlefieldMinimap:ClearAllPoints()
+		Arh_ArchaeologyDigSites_BattlefieldMinimap:SetPoint("TOPLEFT", BattlefieldMinimap)
+		Arh_ArchaeologyDigSites_BattlefieldMinimap:SetPoint("BOTTOMRIGHT", BattlefieldMinimap)
+		SetVisible(Arh_ArchaeologyDigSites_BattlefieldMinimap, cfg.DigSites.ShowOnBattlefieldMinimap)
 	end
 
 	for id, button in ipairs(addon.colorButton) do
 	  InitCancelableButton(button)
 	  button:SetHitRectInsets(6,6,6,6)
 	end
-	InitCancelableButton(Corah_MainFrame_ButtonDig)
+	InitCancelableButton(Arh_MainFrame_ButtonDig)
 
-	Corah_MainFrame_ButtonDig.CanceledTexture:SetSize(30, 30)
-	Corah_MainFrame_ButtonDig:SetAttribute("spell", GetSpellInfo(80451))
+	Arh_MainFrame_ButtonDig.CanceledTexture:SetSize(30, 30)
+	Arh_MainFrame_ButtonDig:SetAttribute("spell", GetSpellInfo(80451))
 	addon:ToggleHUD(cfg.HUD.Visible)
 	addon:CheckSuppress()
 	addon:init_travelform()
 
-	Corah_MainFrame_ButtonBack:SetHitRectInsets(0,0,6,6)
+	Arh_MainFrame_ButtonBack:SetHitRectInsets(0,0,6,6)
 end
 
 local MainFrameIsMoving = false
-function Corah_MainFrame_OnMouseDown(self, button)
+function Arh_MainFrame_OnMouseDown(self, button)
 	if button == "LeftButton" then
-		if Corah_MainFrame:IsMovable() and not cfg.MainFrame.Locked then
-			Corah_MainFrame:StartMoving()
+		if Arh_MainFrame:IsMovable() and not cfg.MainFrame.Locked then
+			Arh_MainFrame:StartMoving()
 			MainFrameIsMoving = true
 		end
 	elseif button == "RightButton" then
@@ -1591,26 +1591,26 @@ function Corah_MainFrame_OnMouseDown(self, button)
 	end
 end
 
-function Corah_MainFrame_OnMouseUp(self, button)
+function Arh_MainFrame_OnMouseUp(self, button)
 	if button == "LeftButton" then
 		if MainFrameIsMoving then
 			MainFrameIsMoving = false
-			Corah_MainFrame:StopMovingOrSizing()
-			cfg.MainFrame.point, cfg.MainFrame.posX, cfg.MainFrame.posY = select(3,Corah_MainFrame:GetPoint(1))
+			Arh_MainFrame:StopMovingOrSizing()
+			cfg.MainFrame.point, cfg.MainFrame.posX, cfg.MainFrame.posY = select(3,Arh_MainFrame:GetPoint(1))
 		end
 	elseif button == "RightButton" then
 	end
 end
 
-function Corah_MainFrame_OnHide()
+function Arh_MainFrame_OnHide()
 	if MainFrameIsMoving then
-		Corah_MainFrame_OnMouseUp(Corah_MainFrame, "LeftButton")
+		Arh_MainFrame_OnMouseUp(Arh_MainFrame, "LeftButton")
 	end
 end
 
 local old_pw, old_ph = -1, -1
 
-function Corah_ArchaeologyDigSites_OnLoad(self)
+function Arh_ArchaeologyDigSites_OnLoad(self)
 	self:SetFillAlpha(128);
 	self:SetFillTexture("Interface\\WorldMap\\UI-ArchaeologyBlob-Inside");
 	self:SetBorderTexture("Interface\\WorldMap\\UI-ArchaeologyBlob-Outside");
@@ -1619,7 +1619,7 @@ function Corah_ArchaeologyDigSites_OnLoad(self)
 	self:SetBorderScalar(0.1);
 end
 
-function Corah_ArchaeologyDigSites_BattlefieldMinimap_OnUpdate(self, elapsed)
+function Arh_ArchaeologyDigSites_BattlefieldMinimap_OnUpdate(self, elapsed)
 	self:DrawNone()
 	local numEntries = ArchaeologyMapUpdateAll()
 	for i = 1, numEntries do
@@ -1630,7 +1630,7 @@ end
 
 local UIParent_Height_old = -1
 local MinimapScale_old = -1
-function Corah_UpdateHudFrameSizes(force)
+function Arh_UpdateHudFrameSizes(force)
 	local UIParent_Height = UIParent:GetHeight()
 
 	local zoom = Minimap:GetZoom()
@@ -1643,103 +1643,103 @@ function Corah_UpdateHudFrameSizes(force)
 	end
 	MinimapScale_old = MinimapScale
 	UIParent_Height_old = UIParent_Height
-	--print("Corah_UpdateHudFrameSizes")
+	--print("Arh_UpdateHudFrameSizes")
 
 -- HUD Frame
-	Corah_HudFrame:SetScale(cfg.HUD.Scale)
+	Arh_HudFrame:SetScale(cfg.HUD.Scale)
 	local size = UIParent_Height
-	Corah_HudFrame:SetSize(size, size)
+	Arh_HudFrame:SetSize(size, size)
 
 	local HudPixelsInYard = size / minimap_size[indoors][zoom]
 
 -- Success Circle
 	local success_diameter = 16 * HudPixelsInYard
-	Corah_HudFrame.SuccessCircle:SetSize(success_diameter, success_diameter)
+	Arh_HudFrame.SuccessCircle:SetSize(success_diameter, success_diameter)
 
 -- Compass
 	local compass_radius = cfg.HUD.CompassRadius * HudPixelsInYard
 	local compass_diameter = 2 * compass_radius
-	Corah_HudFrame.CompassCircle:SetSize(compass_diameter, compass_diameter)
+	Arh_HudFrame.CompassCircle:SetSize(compass_diameter, compass_diameter)
 	local radius = size * (0.45/2) * MinimapScale
-	for k, v in ipairs(Corah_HudFrame.CompasDirections) do
+	for k, v in ipairs(Arh_HudFrame.CompasDirections) do
 		v.radius = compass_radius
 	end
 end
 
-function Corah_HudFrame_OnLoad()
+function Arh_HudFrame_OnLoad()
 end
 
 function addon:HUD_config_update()
-	Corah_HudFrame:SetParent(UIParent)
-	Corah_HudFrame:ClearAllPoints()
-	Corah_HudFrame:SetPoint("CENTER", (cfg.HUD.PosX or 0)*GetScreenWidth()/(cfg.HUD.Scale or 1), 
+	Arh_HudFrame:SetParent(UIParent)
+	Arh_HudFrame:ClearAllPoints()
+	Arh_HudFrame:SetPoint("CENTER", (cfg.HUD.PosX or 0)*GetScreenWidth()/(cfg.HUD.Scale or 1), 
 	                                (cfg.HUD.PosY or 0)*GetScreenHeight()/(cfg.HUD.Scale or 1))
-	Corah_HudFrame:EnableMouse(false)
-	Corah_HudFrame:SetFrameStrata("BACKGROUND")
+	Arh_HudFrame:EnableMouse(false)
+	Arh_HudFrame:SetFrameStrata("BACKGROUND")
 
-	Corah_HudFrame:SetScale(cfg.HUD.Scale)
-	Corah_HudFrame:SetAlpha(cfg.HUD.Alpha)
+	Arh_HudFrame:SetScale(cfg.HUD.Scale)
+	Arh_HudFrame:SetAlpha(cfg.HUD.Alpha)
 
 	-- Arrow
-	SetVisible(Corah_HudFrame_ArrowFrame, cfg.HUD.ShowArrow)
-	Corah_HudFrame_ArrowFrame:SetScale(cfg.HUD.ArrowScale)
-	Corah_HudFrame_ArrowFrame:SetAlpha(cfg.HUD.ArrowAlpha)
+	SetVisible(Arh_HudFrame_ArrowFrame, cfg.HUD.ShowArrow)
+	Arh_HudFrame_ArrowFrame:SetScale(cfg.HUD.ArrowScale)
+	Arh_HudFrame_ArrowFrame:SetAlpha(cfg.HUD.ArrowAlpha)
 
 	-- Success Circle
-	Corah_HudFrame.SuccessCircle:SetPoint("CENTER")
+	Arh_HudFrame.SuccessCircle:SetPoint("CENTER")
 	local c = cfg.HUD.SuccessCircleColor
-	Corah_HudFrame.SuccessCircle:SetVertexColor(c.r,c.g,c.b,c.a)
-	SetVisible(Corah_HudFrame.SuccessCircle, cfg.HUD.ShowSuccessCircle)
+	Arh_HudFrame.SuccessCircle:SetVertexColor(c.r,c.g,c.b,c.a)
+	SetVisible(Arh_HudFrame.SuccessCircle, cfg.HUD.ShowSuccessCircle)
 	
 	-- Compass Circle
-	Corah_HudFrame.CompassCircle:SetPoint("CENTER")
+	Arh_HudFrame.CompassCircle:SetPoint("CENTER")
 	c = cfg.HUD.CompassColor
-	Corah_HudFrame.CompassCircle:SetVertexColor(c.r,c.g,c.b,c.a)
-	SetVisible(Corah_HudFrame.CompassCircle, cfg.HUD.ShowCompass)
+	Arh_HudFrame.CompassCircle:SetVertexColor(c.r,c.g,c.b,c.a)
+	SetVisible(Arh_HudFrame.CompassCircle, cfg.HUD.ShowCompass)
 	c = cfg.HUD.CompassTextColor
-	for _, ind in ipairs(Corah_HudFrame.CompasDirections) do
+	for _, ind in ipairs(Arh_HudFrame.CompasDirections) do
 		SetVisible(ind, cfg.HUD.ShowCompass)
 		ind:SetTextColor(c.r,c.g,c.b,c.a)
 	end
 end
 
-function Corah_HudFrame_Init()
-	Corah_HudFrame.GetZoom = function(...) return Minimap:GetZoom(...) end
-	Corah_HudFrame.SetZoom = function(...) end
+function Arh_HudFrame_Init()
+	Arh_HudFrame.GetZoom = function(...) return Minimap:GetZoom(...) end
+	Arh_HudFrame.SetZoom = function(...) end
 
-	Corah_HudFrame.SuccessCircle = Corah_HudFrame:CreateTexture()
-	Corah_HudFrame.SuccessCircle:SetTexture(165793)
-	Corah_HudFrame.SuccessCircle:SetBlendMode("ADD")
+	Arh_HudFrame.SuccessCircle = Arh_HudFrame:CreateTexture()
+	Arh_HudFrame.SuccessCircle:SetTexture(165793)
+	Arh_HudFrame.SuccessCircle:SetBlendMode("ADD")
 
-	Corah_HudFrame.CompassCircle = Corah_HudFrame:CreateTexture()
-	Corah_HudFrame.CompassCircle:SetTexture(165793)
-	Corah_HudFrame.CompassCircle:SetBlendMode("ADD")
+	Arh_HudFrame.CompassCircle = Arh_HudFrame:CreateTexture()
+	Arh_HudFrame.CompassCircle:SetTexture(165793)
+	Arh_HudFrame.CompassCircle:SetBlendMode("ADD")
 
 -- Compass Text
 	local directions = {}
 	local indicators = {"N", "NE", "E", "SE", "S", "SW", "W", "NW"}
 	for k, v in ipairs(indicators) do
 		local a = ((math.pi/4) * (k-1))
-		local ind = Corah_HudFrame:CreateFontString(nil, nil, "GameFontNormalSmall")
+		local ind = Arh_HudFrame:CreateFontString(nil, nil, "GameFontNormalSmall")
 		ind:SetText(v)
 		ind:SetShadowOffset(0.2,-0.2)
 		ind:SetTextHeight(20)
 		ind.angle = a
 		tinsert(directions, ind)
 	end
-	Corah_HudFrame.CompasDirections = directions
+	Arh_HudFrame.CompasDirections = directions
 
 	addon:HUD_config_update()
 end
 
-local corah_waiting_for_move = false
+local arh_waiting_for_move = false
 local last_player_x = 0
 local last_player_y = 0
 local function IsPlayerMoved(x, y, a)
 	ret = false
-	if corah_waiting_for_move then
+	if arh_waiting_for_move then
 		if last_player_x ~= x or last_player_y ~= y then
-			print("corah: player moved")
+			print("arh: player moved")
 			ret = true
 		end
 	end
@@ -1749,7 +1749,7 @@ local function IsPlayerMoved(x, y, a)
 end
 
 local last_update_hud = 0
-function Corah_HudFrame_OnUpdate(frame, elapsed)
+function Arh_HudFrame_OnUpdate(frame, elapsed)
 	-- I'M MOVING
 	last_update_hud = last_update_hud + elapsed
 	if last_update_hud > 0.05 then
@@ -1761,13 +1761,13 @@ function Corah_HudFrame_OnUpdate(frame, elapsed)
 		-- if IsPlayerMoved(japx, japy, pa) then
 		-- end
 
-		Corah_UpdateHudFrameSizes()
+		Arh_UpdateHudFrameSizes()
 		
 		if cfg.HUD.ShowCompass then
-			for k, v in ipairs(Corah_HudFrame.CompasDirections) do
+			for k, v in ipairs(Arh_HudFrame.CompasDirections) do
 				local x, y = math.sin(v.angle + pa), math.cos(v.angle + pa)
 				v:ClearAllPoints()
-				v:SetPoint("CENTER", Corah_HudFrame, "CENTER", x * v.radius, y * v.radius)
+				v:SetPoint("CENTER", Arh_HudFrame, "CENTER", x * v.radius, y * v.radius)
 			end
 		end
 
@@ -1817,7 +1817,7 @@ local function UseGatherMate2(use)
 	end
 	if use then
 		OriginalRotationFlag = GetCVar("rotateMinimap")
-		Display:ReparentMinimapPins(Corah_HudFrame)
+		Display:ReparentMinimapPins(Arh_HudFrame)
 		Display:ChangedVars(nil, "ROTATE_MINIMAP", "1")
 		GMonHud = true
 	else
@@ -1830,8 +1830,8 @@ local function UseGatherMate2(use)
 	end
 end
 
-function Corah_SetUseGatherMate2(use)
-	if Corah_HudFrame:IsVisible() then
+function Arh_SetUseGatherMate2(use)
+	if Arh_HudFrame:IsVisible() then
 		if cfg.HUD.UseGatherMate2 and not use then
 			UseGatherMate2(false)
 		end
@@ -1843,13 +1843,13 @@ function Corah_SetUseGatherMate2(use)
 end
 
 
-function Corah_HudFrame_OnShow(self)
+function Arh_HudFrame_OnShow(self)
 	if cfg.HUD.UseGatherMate2 then
 		UseGatherMate2(true)
 	end
-	Corah_HudFrame_OnUpdate(nil, 100) -- force an update to prevent a flicker
+	Arh_HudFrame_OnUpdate(nil, 100) -- force an update to prevent a flicker
 end
-function Corah_HudFrame_OnHide(self)
+function Arh_HudFrame_OnHide(self)
 	if cfg.HUD.UseGatherMate2 then
 		UseGatherMate2(false)
 	end
