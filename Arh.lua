@@ -17,14 +17,14 @@ local ARH_GREEN = 1
 local ARH_YELLOW = 2
 local ARH_RED = 3
 local id2cname = {
-  [ARH_GREEN] = "Green",
-  [ARH_YELLOW] = "Yellow",
-  [ARH_RED] = "Red",
+	[ARH_GREEN] = "Green",
+	[ARH_YELLOW] = "Yellow",
+	[ARH_RED] = "Red",
 }
 local id2rgb = {
-  [ARH_GREEN] =  { 0, 1, 0 },
-  [ARH_YELLOW] = { 0.5, 0.5, 0 },
-  [ARH_RED] =    { 1, 0, 0 },
+	[ARH_GREEN] =  { 0, 1, 0 },
+	[ARH_YELLOW] = { 0.5, 0.5, 0 },
+	[ARH_RED] =    { 1, 0, 0 },
 }
 addon.colorButton = {}
 
@@ -117,33 +117,33 @@ local function PlaySound(soundfile)
 end
 
 local function ArchyShown()
-  return Archy and Archy.db and Archy.db.profile and Archy.db.profile.general and Archy.db.profile.general.show
+	return Archy and Archy.db and Archy.db.profile and Archy.db.profile.general and Archy.db.profile.general.show
 end
 
 local function ArchyUpdate()
-  local shown = ArchyShown()
-  if addon.archy_state == shown then return end -- no change
-  addon.archy_state = shown
-  local follow = cfg and cfg.MainFrame and cfg.MainFrame.FollowArchy
-  if not follow then return end -- disabled
-  addon:ToggleMainFrame(shown)
+	local shown = ArchyShown()
+	if addon.archy_state == shown then return end -- no change
+	addon.archy_state = shown
+	local follow = cfg and cfg.MainFrame and cfg.MainFrame.FollowArchy
+	if not follow then return end -- disabled
+	addon:ToggleMainFrame(shown)
 end
 
 function addon:HookArchy()
-  if Archy and Archy.ConfigUpdated and not addon.archy_hooked then
-    hooksecurefunc(Archy, "ConfigUpdated", ArchyUpdate)
-    addon.archy_hooked = true
-    addon.archy_state = ArchyShown()
-  end
+	if Archy and Archy.ConfigUpdated and not addon.archy_hooked then
+		hooksecurefunc(Archy, "ConfigUpdated", ArchyUpdate)
+		addon.archy_hooked = true
+		addon.archy_state = ArchyShown()
+	end
 end
 
 local function DigsiteUpdate(self, elapsed)
-  if InCombatLockdown() then return end
-  local shown = CanScanResearchSite()
-  local follow = cfg and cfg.MainFrame and cfg.MainFrame.FollowDigsite
-  if follow and not cfg.MainFrame.Visible ~= not shown then 
-    addon:ToggleMainFrame(shown)
-  end
+	if InCombatLockdown() then return end
+	local shown = CanScanResearchSite()
+	local follow = cfg and cfg.MainFrame and cfg.MainFrame.FollowDigsite
+	if follow and not cfg.MainFrame.Visible ~= not shown then
+		addon:ToggleMainFrame(shown)
+	end
 end
 
 addon.hiddenFrame = CreateFrame("Button", "ArhHiddenFrame", UIParent)
@@ -173,7 +173,7 @@ function addon:ToggleHUD(enable)
 	Arh_MainFrame_ButtonDig.Canceled = not cfg.HUD.Visible
 	SetVisible(Arh_MainFrame_ButtonDig.CanceledTexture, not cfg.HUD.Visible)
 	SetVisible(Arh_HudFrame, cfg.HUD.Visible)
-        addon.suppress = false -- manual override disables suppression
+	addon.suppress = false -- manual override disables suppression
 	--[[
 	if cfg.HUD.Visible then
 		PlaySound(SOUND_SHOWMAINFRAME)
@@ -184,49 +184,45 @@ function addon:ToggleHUD(enable)
 end
 
 function addon:CheckSuppress()
-  local shouldsuppress = false
-  if UnitIsGhost("player") or 
-     UnitInBattleground("player") or 
-     UnitInVehicle("player") or
-     IsInInstance() or
-     (C_PetBattles and C_PetBattles.IsInBattle()) or -- in pet battle
-     not select(3,GetProfessions()) -- lacks archaeology
-     then
-    shouldsuppress = true
-  elseif cfg.MainFrame.HideCombat and (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) then
-    shouldsuppress = true
-  elseif cfg.MainFrame.HideResting and IsResting() then
-    shouldsuppress = true
-  end
-  if shouldsuppress and not addon.suppress then -- begin suppress
-    if not InCombatLockdown() then SetVisible(Arh_MainFrame, false) end
-    SetVisible(Arh_HudFrame, false)
-    addon.suppress = true  
-  elseif not shouldsuppress and addon.suppress then -- end suppress
-    if not InCombatLockdown() then SetVisible(Arh_MainFrame, cfg.MainFrame.Visible) end
-    SetVisible(Arh_HudFrame, cfg.HUD.Visible)
-    addon.suppress = false
-  end
+	local shouldsuppress = false
+	if UnitIsGhost("player") or
+			UnitInBattleground("player") or
+			UnitInVehicle("player") or
+			IsInInstance() or
+			(C_PetBattles and C_PetBattles.IsInBattle()) or -- in pet battle
+			not select(3,GetProfessions()) -- lacks archaeology
+	then
+		shouldsuppress = true
+	elseif cfg.MainFrame.HideCombat and (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) then
+		shouldsuppress = true
+	elseif cfg.MainFrame.HideResting and IsResting() then
+		shouldsuppress = true
+	end
+	if shouldsuppress and not addon.suppress then -- begin suppress
+		if not InCombatLockdown() then SetVisible(Arh_MainFrame, false) end
+		SetVisible(Arh_HudFrame, false)
+		addon.suppress = true
+	elseif not shouldsuppress and addon.suppress then -- end suppress
+		if not InCombatLockdown() then SetVisible(Arh_MainFrame, cfg.MainFrame.Visible) end
+		SetVisible(Arh_HudFrame, cfg.HUD.Visible)
+		addon.suppress = false
+	end
 end
 
 function addon:Config()
-    if InterfaceOptionsFrame:IsShown() then
-        InterfaceOptionsFrame:Hide()
-    else
-	InterfaceOptionsFrame_OpenToCategory("Arh")
-    end
+	InterfaceOptionsFrame_OpenToCategory(addonName)
 end
 
 function addon:ToggleArch()
-  if not IsAddOnLoaded("Blizzard_ArchaeologyUI") then
-    local loaded, reason = LoadAddOn("Blizzard_ArchaeologyUI")
-    if not loaded then return end
-  end
-  if ArchaeologyFrame:IsShown() then
-    HideUIPanel(ArchaeologyFrame)
-  else
-    ShowUIPanel(ArchaeologyFrame)
-  end
+	if not IsAddOnLoaded("Blizzard_ArchaeologyUI") then
+		local loaded, reason = LoadAddOn("Blizzard_ArchaeologyUI")
+		if not loaded then return end
+	end
+	if ArchaeologyFrame:IsShown() then
+		HideUIPanel(ArchaeologyFrame)
+	else
+		ShowUIPanel(ArchaeologyFrame)
+	end
 end
 
 local function cs(str)
@@ -294,33 +290,33 @@ Arh_DefaultConfig =
 -- label bindings
 BINDING_HEADER_ARH = L["Archaeology Helper"]
 local bindings = {
-  { name="Dig:Left", 	desc=L["Cast Survey"], },
-  { name="SHOWARCH", 	desc=L["Open archaeology window"] },
-  { name="TOGGLEMAIN", 	desc=L["Show/Hide the Main Window"], 		alias="t" },
-  { name="TOGGLEHUD", 	desc=L["Show/Hide the HUD"], 			alias="h" },
-  { name="Back:Left",	desc=L["Remove one previously added area"], 	alias="b", 	order=-1 },
+	{ name="Dig:Left", 	desc=L["Cast Survey"], },
+	{ name="SHOWARCH", 	desc=L["Open archaeology window"] },
+	{ name="TOGGLEMAIN", 	desc=L["Show/Hide the Main Window"], 		alias="t" },
+	{ name="TOGGLEHUD", 	desc=L["Show/Hide the HUD"], 			alias="h" },
+	{ name="Back:Left",	desc=L["Remove one previously added area"], 	alias="b", 	order=-1 },
 }
 for _,color in ipairs(id2cname) do
-  local c = color:lower():sub(1,1)
-  table.insert(bindings, { name=color..":Left", desc=L["Add %s area to the HUD"]:format(L[color:lower()]), alias="a"..c })
-  table.insert(bindings, { name=color..":Right", desc=L["Show/Hide all %s areas"]:format(L[color:lower()]), alias="t"..c })
+	local c = color:lower():sub(1,1)
+	table.insert(bindings, { name=color..":Left", desc=L["Add %s area to the HUD"]:format(L[color:lower()]), alias="a"..c })
+	table.insert(bindings, { name=color..":Right", desc=L["Show/Hide all %s areas"]:format(L[color:lower()]), alias="t"..c })
 end
 for _, info in ipairs(bindings) do
-  local bindname
-  if info.name:find(":") then
-    info.bindname = string.format("CLICK Arh_MainFrame_Button%sButton",info.name)
-  else
-    info.bindname = string.format("ARH_%s",info.name)
-  end
-  _G["BINDING_NAME_"..info.bindname] = info.desc
+	local bindname
+	if info.name:find(":") then
+		info.bindname = string.format("CLICK Arh_MainFrame_Button%sButton",info.name)
+	else
+		info.bindname = string.format("ARH_%s",info.name)
+	end
+	_G["BINDING_NAME_"..info.bindname] = info.desc
 end
 
 function addon:ResetSettings()
 	local c
 
--- MainFrame
+	-- MainFrame
 	SetVisible(Arh_MainFrame, cfg.MainFrame.Visible)
-    Arh_MainFrame:SetScale(cfg.MainFrame.Scale)
+	Arh_MainFrame:SetScale(cfg.MainFrame.Scale)
 	Arh_MainFrame:SetAlpha(cfg.MainFrame.Alpha)
 	Arh_MainFrame:ClearAllPoints()
 	Arh_MainFrame:SetPoint("CENTER")
@@ -334,577 +330,578 @@ function addon:ResetSettings()
 	addon:UpdateAlphaEverything()
 	addon:ToggleHUD(cfg.HUD.Visible)
 
--- Dig Sites
+	-- Dig Sites
 	SetVisible(Arh_ArchaeologyDigSites_BattlefieldMinimap, cfg.DigSites.ShowOnBattlefieldMinimap)
 
 end
 
 -- return current value of minimap arch tracking
 function addon:GetDigsiteTracking()
-  local id, active
-  for i=1,GetNumTrackingTypes() do 
-    local name, texture, a, category = GetTrackingInfo(i)
-    if texture:find("ArchBlob") then
-      id = i
-      active = a
-      break
-    end
-  end
-  return active, id
+	local id, active
+
+	for i=1,C_Minimap.GetNumTrackingTypes() do
+		local name, texture, a, category = C_Minimap.GetTrackingInfo(i)
+		if name:find("Track Digsites") then
+			id = i
+			active = a
+			break
+		end
+	end
+	return active, id
 end
 -- set minimap arch tracking and return the old enabled value
 function addon:SetDigsiteTracking(on)
-  local active, id = addon:GetDigsiteTracking()
-  if id then
-    MiniMapTracking_SetTracking(Minimap, id, nil, on)
-  end
-  return active
+	local active, id = addon:GetDigsiteTracking()
+	if id then
+		C_Minimap.SetTracking(id, on)
+	end
+	return active
 end
 
 local OptionsTable =
 {
 	type = "group",
 	args =
+	{
+		ResetToDefaults =
 		{
-			ResetToDefaults =
+			order = 1,
+			name = L["Reset All Settings"],
+			desc = L["Resets all settings to defaults"],
+			type = "execute",
+			confirm = true,
+			confirmText = L["This will overwrite current settings!"],
+			func =
+			function()
+				Arh_Config = CopyByValue(Arh_DefaultConfig)
+				cfg = Arh_Config
+				addon:ResetSettings()
+			end,
+		},
+		MainFrame =
+		{
+			order = 2,
+			name = L["Main Window"],
+			desc = L["Main window settings"],
+			type = "group",
+			get = function(info)
+				return cfg.MainFrame[info[#info]]
+			end,
+			set = function(info, value)
+				cfg.MainFrame[info[#info]] = value
+			end,
+			args =
 			{
-				order = 1,
-				name = L["Reset All Settings"],
-				desc = L["Resets all settings to defaults"],
-				type = "execute",
-				confirm = true,
-				confirmText = L["This will overwrite current settings!"],
-				func =
-						function()
-							Arh_Config = CopyByValue(Arh_DefaultConfig)
-							cfg = Arh_Config
-							addon:ResetSettings()
-						end,
-			},
-			MainFrame =
-			{
-				order = 2,
-				name = L["Main Window"],
-				desc = L["Main window settings"],
-				type = "group",
-                        	get = function(info)
-                                 	return cfg.MainFrame[info[#info]]
-                        	end,
-                        	set = function(info, value)
-                                        cfg.MainFrame[info[#info]] = value
-                        	end,
-				args =
+				VisualOptions =
 				{
-					VisualOptions =
+					order = 1,
+					type = "group",
+					name = L["Visual Settings"],
+					inline = true,
+					args =
 					{
-						order = 1,
-						type = "group",
-						name = L["Visual Settings"],
-						inline = true,
-						args =
+						reset =
 						{
-							reset =
-							{
-								order = 1,
-								name = L["Reset Position"],
-								desc = L["Resets window position to the center of the screen"],
-								type = "execute",
-								width = "full",
-								confirm = true,
-								confirmText = L["This will reset Main Window position"],
-								func =
-										function()
-											Arh_MainFrame:ClearAllPoints()
-											Arh_MainFrame:SetPoint("CENTER")
-										end,
-							},
-							Visible =
-							{
-								order = 2,
-								name = L["Visible"],
-								desc = L["Whether window is visible"],
-								type = "toggle",
-								set = function(info, val)
-										addon:ToggleMainFrame(val)
-									end,
-								disabled = function(info) return cfg.MainFrame.FollowDigsite end,
-							},
-							FollowArchy =
-							{
-								order = 2.5,
-								name = L["Toggle with Archy"],
-								desc = L["Show/Hide window when you show/hide Archy addon"],
-								type = "toggle",
-								disabled = function(info) return not Archy or cfg.MainFrame.FollowDigsite end,
-							},
-							FollowDigsite =
-							{
-								order = 1.9,
-								name = L["Toggle with digsite"],
-								desc = L["Show/Hide window when entering/leaving a digsite"],
-								type = "toggle",
-							},
-							HideCombat =
-							{
-								order = 2.7,
-								name = L["Hide on combat"],
-								desc = L["Hide on combat"],
-								type = "toggle",
-							},
-							HideResting =
-							{
-								order = 2.9,
-								name = L["Hide when resting"],
-								desc = L["Hide when resting"],
-								type = "toggle",
-							},
-							Locked =
-							{
-								order = 3,
-								name = L["Locked"],
-								desc = L["Locks window to prevent accidental repositioning"],
-								type = "toggle",
-								set = function(info, val)
-										cfg.MainFrame.Locked = val
-									end,
-							},
-      							minimap = {
-        							order = 3.5,
-        							name = L["Minimap Icon"],
-        							desc = L["Display minimap icon"],
-        							type = "toggle",
-        							set = function(info,val)
-          								cfg.Minimap.hide = not val
-									minimapIcon:Refresh(addonName)
-        							end,
-        							get = function() return not cfg.Minimap.hide end,
-      							},
-							Scale =
-							{
-								order = 4,
-								name = L["Scaling"],
-								desc = L["Size of the main window"],
-								type = "range",
-								min = 0.1,
-								max = 100,
-								softMin = 0.5,
-								softMax = 5,
-								step = 0.1,
-								set =
-									function(info, val)
-										cfg.MainFrame.Scale = val
-										Arh_MainFrame:SetScale(val)
-									end,
-							},
-							Alpha =
-							{
-								order = 5,
-								name = L["Alpha"],
-								desc = L["How transparent is window"],
-								type = "range",
-								min = 0,
-								max = 1,
-								step = 0.01,
-								isPercent = true,
-								set =
-									function(info, val)
-										cfg.MainFrame.Alpha = val
-										Arh_MainFrame:SetAlpha(val)
-									end,
-							},
-							ShowTooltips =
-							{
-								order = 6,
-								name = L["Show Tooltips"],
-								desc = L["Show Tooltips in the main window"],
-								type = "toggle",
-							},
-							TooltipsScale =
-							{
-								order = 7,
-								name = L["Tooltips Scaling"],
-								desc = L["Scale main window Tooltips"],
-								type = "range",
-								min = 0.10,
-								max = 3.00,
-								step = 0.05,
-								isPercent = true,
-								disabled = function(info) return not cfg.MainFrame.ShowTooltips end,
-								set =
-									function(info, val)
-										cfg.MainFrame.TooltipsScale = val
-										Arh_Tooltip:SetScale(val)
-									end,
-							},
+							order = 1,
+							name = L["Reset Position"],
+							desc = L["Resets window position to the center of the screen"],
+							type = "execute",
+							width = "full",
+							confirm = true,
+							confirmText = L["This will reset Main Window position"],
+							func =
+							function()
+								Arh_MainFrame:ClearAllPoints()
+								Arh_MainFrame:SetPoint("CENTER")
+							end,
+						},
+						Visible =
+						{
+							order = 2,
+							name = L["Visible"],
+							desc = L["Whether window is visible"],
+							type = "toggle",
+							set = function(info, val)
+								addon:ToggleMainFrame(val)
+							end,
+							disabled = function(info) return cfg.MainFrame.FollowDigsite end,
+						},
+						FollowArchy =
+						{
+							order = 2.5,
+							name = L["Toggle with Archy"],
+							desc = L["Show/Hide window when you show/hide Archy addon"],
+							type = "toggle",
+							disabled = function(info) return not Archy or cfg.MainFrame.FollowDigsite end,
+						},
+						FollowDigsite =
+						{
+							order = 1.9,
+							name = L["Toggle with digsite"],
+							desc = L["Show/Hide window when entering/leaving a digsite"],
+							type = "toggle",
+						},
+						HideCombat =
+						{
+							order = 2.7,
+							name = L["Hide on combat"],
+							desc = L["Hide on combat"],
+							type = "toggle",
+						},
+						HideResting =
+						{
+							order = 2.9,
+							name = L["Hide when resting"],
+							desc = L["Hide when resting"],
+							type = "toggle",
+						},
+						Locked =
+						{
+							order = 3,
+							name = L["Locked"],
+							desc = L["Locks window to prevent accidental repositioning"],
+							type = "toggle",
+							set = function(info, val)
+								cfg.MainFrame.Locked = val
+							end,
+						},
+						minimap = {
+							order = 3.5,
+							name = L["Minimap Icon"],
+							desc = L["Display minimap icon"],
+							type = "toggle",
+							set = function(info,val)
+								cfg.Minimap.hide = not val
+								minimapIcon:Refresh(addonName)
+							end,
+							get = function() return not cfg.Minimap.hide end,
+						},
+						Scale =
+						{
+							order = 4,
+							name = L["Scaling"],
+							desc = L["Size of the main window"],
+							type = "range",
+							min = 0.1,
+							max = 100,
+							softMin = 0.5,
+							softMax = 5,
+							step = 0.1,
+							set =
+							function(info, val)
+								cfg.MainFrame.Scale = val
+								Arh_MainFrame:SetScale(val)
+							end,
+						},
+						Alpha =
+						{
+							order = 5,
+							name = L["Alpha"],
+							desc = L["How transparent is window"],
+							type = "range",
+							min = 0,
+							max = 1,
+							step = 0.01,
+							isPercent = true,
+							set =
+							function(info, val)
+								cfg.MainFrame.Alpha = val
+								Arh_MainFrame:SetAlpha(val)
+							end,
+						},
+						ShowTooltips =
+						{
+							order = 6,
+							name = L["Show Tooltips"],
+							desc = L["Show Tooltips in the main window"],
+							type = "toggle",
+						},
+						TooltipsScale =
+						{
+							order = 7,
+							name = L["Tooltips Scaling"],
+							desc = L["Scale main window Tooltips"],
+							type = "range",
+							min = 0.10,
+							max = 3.00,
+							step = 0.05,
+							isPercent = true,
+							disabled = function(info) return not cfg.MainFrame.ShowTooltips end,
+							set =
+							function(info, val)
+								cfg.MainFrame.TooltipsScale = val
+								Arh_Tooltip:SetScale(val)
+							end,
 						},
 					},
-					MiscOptions =
-					{
-						order = 2,
-						type = "group",
-						name = L["Misc Settings"],
-						inline = true,
-						args = (function()
-						  local ret = {}
-						  ret.PlaySounds = {
-								order = 1,
-								name = L["Play Sounds"],
-								desc = L["Play confirmation sounds for various actions"],
-								type = "toggle",
-						  }
-						  for id,cname in ipairs(id2cname) do
-						    ret["Mount"..cname] = {
-						    		order = 10+id,
+				},
+				MiscOptions =
+				{
+					order = 2,
+					type = "group",
+					name = L["Misc Settings"],
+					inline = true,
+					args = (function()
+						local ret = {}
+						ret.PlaySounds = {
+							order = 1,
+							name = L["Play Sounds"],
+							desc = L["Play confirmation sounds for various actions"],
+							type = "toggle",
+						}
+						for id,cname in ipairs(id2cname) do
+							ret["Mount"..cname] = {
+								order = 10+id,
 								name = L["Mount %s"]:format(L[cname:lower()]),
 								desc = L["Automatically mount when adding this color to the HUD"],
 								type = "toggle",
-                        					set = function(info, value)
-                                        				cfg.MainFrame[info[#info]] = value
+								set = function(info, value)
+									cfg.MainFrame[info[#info]] = value
 									addon:init_travelform()
-                        					end,
-						    }
-						  end 
-						  return ret
-						end)(),
-					},
+								end,
+							}
+						end
+						return ret
+					end)(),
 				},
 			},
-			KeyBindings = {
-						order = 3.5,
-						type = "group",
-						name = KEY_BINDINGS,
-						get = function(info)
-							return GetBindingKey(info.arg)
-						      end,
-						set = function(info, key)
-							local action = info.arg
-							if key == "" then
-								oldkey = GetBindingKey(action)
-								if oldkey then
-									SetBinding(oldkey, nil)
-								end
-							else
-								SetBinding(key, action)
-							end
-							SaveBindings(GetCurrentBindingSet())
-						      end,
-						args = (function()
-						  local ret = {}
-						  for i,info in ipairs(bindings) do
-						    ret[info.name] = {
-						      order = info.order or i,
-						      width = "full",
-						      type = "keybinding",
-						      name = info.desc,
-						      arg = info.bindname,
-						      desc = info.alias and string.format(L["You can also use %s command for this action"], 
-						                            string.format("|cff69ccf0/arh %s|r", info.alias))
-						             or info.desc,
-						    }
-						  end
-						  return ret
-						end)(),
-			},
-			HUD =
+		},
+		KeyBindings = {
+			order = 3.5,
+			type = "group",
+			name = KEY_BINDINGS,
+			get = function(info)
+				return GetBindingKey(info.arg)
+			end,
+			set = function(info, key)
+				local action = info.arg
+				if key == "" then
+					oldkey = GetBindingKey(action)
+					if oldkey then
+						SetBinding(oldkey, nil)
+					end
+				else
+					SetBinding(key, action)
+				end
+				SaveBindings(GetCurrentBindingSet())
+			end,
+			args = (function()
+				local ret = {}
+				for i,info in ipairs(bindings) do
+					ret[info.name] = {
+						order = info.order or i,
+						width = "full",
+						type = "keybinding",
+						name = info.desc,
+						arg = info.bindname,
+						desc = info.alias and string.format(L["You can also use %s command for this action"],
+								string.format("|cff69ccf0/arh %s|r", info.alias))
+								or info.desc,
+					}
+				end
+				return ret
+			end)(),
+		},
+		HUD =
+		{
+			order = 3,
+			name = L["HUD"],
+			desc = L["HUD settings"],
+			type = "group",
+			args =
 			{
-				order = 3,
-				name = L["HUD"],
-				desc = L["HUD settings"],
-				type = "group",
-				args =
+				General =
 				{
-					General =
-					{
-						order = 1,
-						type = "group",
-						name = L["General HUD Settings"],
-						inline = true,
-						get = function(info) return cfg.HUD[info[#info]] end,
-						set = function(info,val)
-							cfg.HUD[info[#info]] = val
-							addon:HUD_config_update()
-						      end,
-						args = {
-							ShowGatherMate2 = {
-								order = 1,
-								name = L["Show GatherMate2 pins on the HUD (recomended)"],
-								desc = L["Redirect GatherMate2 output to the HUD when visible"],
-								type = "toggle",
-								width = "full",
-								disabled = function(info) return not GatherMate2 end,
-								get = function(info) return cfg.HUD.UseGatherMate2 end,
-								set = function(info,val) Arh_SetUseGatherMate2(val) end,
-							},
-							ArchOnly = {
-								order = 1.5,
-								name = L["Arch nodes only"],
-								desc = L["Only show Archaeology nodes from GatherMate2 on the HUD"],
-								type = "toggle",
-								width = "full",
-								set = function(info,val)
-										cfg.HUD.ArchOnly = val
-										addon:ToggleHUD();addon:ToggleHUD()
-									end,
-								disabled = function(info) return not cfg.HUD.UseGatherMate2 end,
-							},
-							Scale = {
-								order = 2,
-								name = L["HUD Scaling"],
-								desc = L["Size of the HUD\nIf you need ZOOM - use Minimap ZOOM instead"],
-								type = "range",        
-								min = 0.1,
-								max = 100,
-								softMin = 0.1,
-								softMax = 3,
-								step = 0.1,
-							},
-							Alpha = {
-								order = 3,
-								name = L["HUD Alpha"],
-								desc = L["How transparent is HUD"],
-								type = "range",        
-								min = 0,
-								max = 1,
-								step = 0.01,
-								isPercent = true,
-							},
-							PosX = {
-								order = 3,
-								name = L["HUD X-Offset"],
-								desc = L["Horizontal position of HUD relative to screen center"],
-								type = "range",        
-								min = -0.5,
-								max = 0.5,
-								step = 0.01,
-								isPercent = true,
-							},
-							PosY = {
-								order = 3,
-								name = L["HUD Y-Offset"],
-								desc = L["Vertical position of HUD relative to screen center"],
-								type = "range",        
-								min = -0.5,
-								max = 0.5,
-								step = 0.01,
-								isPercent = true,
-							},
-							ShowArrow = {
-								order = 4,
-								name = L["Show Player Arrow"],
-								desc = L["Draw arrow in the center of the HUD"],
-								type = "toggle",
-								width = "full",
-							},
-							ArrowScale = {
-								order = 5,
-								name = L["Arrow Scaling"],
-								desc = L["Size of the Player Arrow"],
-								type = "range",
-								disabled = function(info) return not cfg.HUD.ShowArrow end,
-								min = 0.1,
-								max = 100,
-								softMin = 0.1,
-								softMax = 10,
-								step = 0.1,
-							},
-							ArrowAlpha = {
-								order = 6,
-								name = L["Arrow Alpha"],
-								desc = L["How transparent is Player Arrow"],
-								type = "range",
-								disabled = function(info) return not cfg.HUD.ShowArrow end,
-								min = 0,
-								max = 1,
-								step = 0.01,
-								isPercent = true,
-							},
-							ShowSuccessCircle = {
-								order = 7,
-								name = L["Show Success Circle"],
-								desc = L["Survey will succeed if fragment lies within this circle"],
-								type = "toggle",
-							},
-							SuccessCircleColor = {
-								order = 8,
-								name = L["Success Circle Color"],
-								desc = L["Color of the Success Circle (you can also set alpha here)"],
-								type = "color",
-								hasAlpha  = true,
-								disabled = function(info) return not cfg.HUD.ShowSuccessCircle end,
-								get =
-										function(info)
-											local c = cfg.HUD.SuccessCircleColor
-											return c.r, c.g, c.b, c.a
-										end,
-								set =
-										function(info, r, g, b, a)
-											local c = cfg.HUD.SuccessCircleColor
-											c.r, c.g, c.b, c.a = r, g, b, a
-											addon:HUD_config_update()
-										end,
-							},
-
+					order = 1,
+					type = "group",
+					name = L["General HUD Settings"],
+					inline = true,
+					get = function(info) return cfg.HUD[info[#info]] end,
+					set = function(info,val)
+						cfg.HUD[info[#info]] = val
+						addon:HUD_config_update()
+					end,
+					args = {
+						ShowGatherMate2 = {
+							order = 1,
+							name = L["Show GatherMate2 pins on the HUD (recomended)"],
+							desc = L["Redirect GatherMate2 output to the HUD when visible"],
+							type = "toggle",
+							width = "full",
+							disabled = function(info) return not GatherMate2 end,
+							get = function(info) return cfg.HUD.UseGatherMate2 end,
+							set = function(info,val) Arh_SetUseGatherMate2(val) end,
 						},
+						ArchOnly = {
+							order = 1.5,
+							name = L["Arch nodes only"],
+							desc = L["Only show Archaeology nodes from GatherMate2 on the HUD"],
+							type = "toggle",
+							width = "full",
+							set = function(info,val)
+								cfg.HUD.ArchOnly = val
+								addon:ToggleHUD();addon:ToggleHUD()
+							end,
+							disabled = function(info) return not cfg.HUD.UseGatherMate2 end,
+						},
+						Scale = {
+							order = 2,
+							name = L["HUD Scaling"],
+							desc = L["Size of the HUD\nIf you need ZOOM - use Minimap ZOOM instead"],
+							type = "range",
+							min = 0.1,
+							max = 100,
+							softMin = 0.1,
+							softMax = 3,
+							step = 0.1,
+						},
+						Alpha = {
+							order = 3,
+							name = L["HUD Alpha"],
+							desc = L["How transparent is HUD"],
+							type = "range",
+							min = 0,
+							max = 1,
+							step = 0.01,
+							isPercent = true,
+						},
+						PosX = {
+							order = 3,
+							name = L["HUD X-Offset"],
+							desc = L["Horizontal position of HUD relative to screen center"],
+							type = "range",
+							min = -0.5,
+							max = 0.5,
+							step = 0.01,
+							isPercent = true,
+						},
+						PosY = {
+							order = 3,
+							name = L["HUD Y-Offset"],
+							desc = L["Vertical position of HUD relative to screen center"],
+							type = "range",
+							min = -0.5,
+							max = 0.5,
+							step = 0.01,
+							isPercent = true,
+						},
+						ShowArrow = {
+							order = 4,
+							name = L["Show Player Arrow"],
+							desc = L["Draw arrow in the center of the HUD"],
+							type = "toggle",
+							width = "full",
+						},
+						ArrowScale = {
+							order = 5,
+							name = L["Arrow Scaling"],
+							desc = L["Size of the Player Arrow"],
+							type = "range",
+							disabled = function(info) return not cfg.HUD.ShowArrow end,
+							min = 0.1,
+							max = 100,
+							softMin = 0.1,
+							softMax = 10,
+							step = 0.1,
+						},
+						ArrowAlpha = {
+							order = 6,
+							name = L["Arrow Alpha"],
+							desc = L["How transparent is Player Arrow"],
+							type = "range",
+							disabled = function(info) return not cfg.HUD.ShowArrow end,
+							min = 0,
+							max = 1,
+							step = 0.01,
+							isPercent = true,
+						},
+						ShowSuccessCircle = {
+							order = 7,
+							name = L["Show Success Circle"],
+							desc = L["Survey will succeed if fragment lies within this circle"],
+							type = "toggle",
+						},
+						SuccessCircleColor = {
+							order = 8,
+							name = L["Success Circle Color"],
+							desc = L["Color of the Success Circle (you can also set alpha here)"],
+							type = "color",
+							hasAlpha  = true,
+							disabled = function(info) return not cfg.HUD.ShowSuccessCircle end,
+							get =
+							function(info)
+								local c = cfg.HUD.SuccessCircleColor
+								return c.r, c.g, c.b, c.a
+							end,
+							set =
+							function(info, r, g, b, a)
+								local c = cfg.HUD.SuccessCircleColor
+								c.r, c.g, c.b, c.a = r, g, b, a
+								addon:HUD_config_update()
+							end,
+						},
+
 					},
-					Compass =
+				},
+				Compass =
+				{
+					order = 2,
+					type = "group",
+					name = L["Compass Settings"],
+					inline = true,
+					args =
 					{
-						order = 2,
-						type = "group",
-						name = L["Compass Settings"],
-						inline = true,
-						args = 
+						ShowCompass =
 						{
-							ShowCompass =
-							{
-								order = 1,
-								name = L["Show compass"],
-								desc = L["Draw compass-like circle on the HUD"],
-								type = "toggle",
-								get = function(info) return cfg.HUD.ShowCompass end,
-								set =
-									function(info,val)
-										cfg.HUD.ShowCompass = val
-										addon:HUD_config_update()
-									end,
-							},
-							CompassRadius =
-							{
-								order = 2,
-								name = L["Radius (yards)"],
-								desc = L["Radius of the compass circle"],
-								type = "range",
-								disabled = function(info) return not cfg.HUD.ShowCompass end,
-								min = 1,
-								max = 1000,
-								softMin = 10,
-								softMax = 300,
-								step = 1,
-								get = function(info) return cfg.HUD.CompassRadius end,
-								set =
-									function(info,val)
-										cfg.HUD.CompassRadius = val
-										Arh_UpdateHudFrameSizes(true)
-									end,
-							},
-							CompassColor =
-							{
-								order = 3,
-								name = L["Compass Circle Color"],
-								desc = L["Color of the Compass Circle (you can also set alpha here)"],
-								type = "color",
-								hasAlpha  = true,
-								disabled = function(info) return not cfg.HUD.ShowCompass end,
-								get =
-										function(info)
-											local c = cfg.HUD.CompassColor
-											return c.r, c.g, c.b, c.a
-										end,
-								set =
-										function(info, r, g, b, a)
-											local c = cfg.HUD.CompassColor
-											c.r, c.g, c.b, c.a = r, g, b, a
-											addon:HUD_config_update()
-										end,
-							},
-							CompassTextColor =
-							{
-								order = 4,
-								name = L["Direction Marks Color"],
-								desc = L["Color of Compass Direction Marks (you can also set alpha here)"],
-								type = "color",
-								hasAlpha  = true,
-								disabled = function(info) return not cfg.HUD.ShowCompass end,
-								get =
-										function(info)
-											local c = cfg.HUD.CompassTextColor
-											return c.r, c.g, c.b, c.a
-										end,
-								set =
-										function(info, r, g, b, a)
-											local c = cfg.HUD.CompassTextColor
-											c.r, c.g, c.b, c.a = r, g, b, a
-											addon:HUD_config_update()
-										end,
-							},
-
-						},
-					},
-					AnnulusSectors =
-					{
-						order = 3,
-						type = "group",
-						name = L["Annulus Sectors Settings"],
-						inline = true,
-						get = function(info) return cfg.HUD[info[#info]] end,
-						set = function(info,val)
-								cfg.HUD[info[#info]] = val
-								addon:UpdateAlphaEverything()
-							end,
-						args = (function()
-						  local ret = {}
-						  for id,cname in ipairs(id2cname) do
-						    ret[cname.."SectAlpha"] = {
-						      	order = id*2,
-						      	name = L["%s Sector Alpha"]:format(L[cname]),
-						      	desc = L["How transparent is %s Annulus Sector"]:format(L[cname]),
-							type = "range",
-							min = 0,
-							max = 1,
-							step = 0.01,
-							isPercent = true,
-						    }
-						    ret[cname.."LineAlpha"] = {
-						     	order = id*2+1,
-						      	name = L["%s Line Alpha"]:format(L[cname]),
-						      	desc = L["How transparent is %s Direction Line"]:format(L[cname]),
-							type = "range",
-							min = 0,
-							max = 1,
-							step = 0.01,
-							isPercent = true,
-						    }
-						  end
-						  return ret
-						end)()
-					},
-				},
-			},
-			DigSites =
-			{
-				order = 4,
-				name = L["Dig Sites"],
-				desc = L["Dig Sites"],
-				type = "group",
-				args =
-				{
-					ShowOnBattlefieldMinimap =
-					{
-						order = 1,
-						name = L["Show digsites on the Battlefield Minimap"],
-						desc = L["Use |cff69ccf0Shift-M|r to open or hide Battlefield Minimap"],
-						type = "toggle",
-						width = "full",
-						get = function(info) return cfg.DigSites.ShowOnBattlefieldMinimap end,
-						set =
+							order = 1,
+							name = L["Show compass"],
+							desc = L["Draw compass-like circle on the HUD"],
+							type = "toggle",
+							get = function(info) return cfg.HUD.ShowCompass end,
+							set =
 							function(info,val)
-								cfg.DigSites.ShowOnBattlefieldMinimap = val
-								SetVisible(Arh_ArchaeologyDigSites_BattlefieldMinimap, val)
+								cfg.HUD.ShowCompass = val
+								addon:HUD_config_update()
 							end,
-					},
-					ShowOnMinimap =
-					{
-						order = 2,
-						name = L["Show digsites on the Minimap"],
-						desc = string.format(L["You can also use %s command for this action"],"|cff69ccf0/arh mm|r"),
-						type = "toggle",
-						width = "full",
-						get = function(info) return addon:GetDigsiteTracking() end,
-						set = function(info,val) addon:SetDigsiteTracking(val) end,
+						},
+						CompassRadius =
+						{
+							order = 2,
+							name = L["Radius (yards)"],
+							desc = L["Radius of the compass circle"],
+							type = "range",
+							disabled = function(info) return not cfg.HUD.ShowCompass end,
+							min = 1,
+							max = 1000,
+							softMin = 10,
+							softMax = 300,
+							step = 1,
+							get = function(info) return cfg.HUD.CompassRadius end,
+							set =
+							function(info,val)
+								cfg.HUD.CompassRadius = val
+								Arh_UpdateHudFrameSizes(true)
+							end,
+						},
+						CompassColor =
+						{
+							order = 3,
+							name = L["Compass Circle Color"],
+							desc = L["Color of the Compass Circle (you can also set alpha here)"],
+							type = "color",
+							hasAlpha  = true,
+							disabled = function(info) return not cfg.HUD.ShowCompass end,
+							get =
+							function(info)
+								local c = cfg.HUD.CompassColor
+								return c.r, c.g, c.b, c.a
+							end,
+							set =
+							function(info, r, g, b, a)
+								local c = cfg.HUD.CompassColor
+								c.r, c.g, c.b, c.a = r, g, b, a
+								addon:HUD_config_update()
+							end,
+						},
+						CompassTextColor =
+						{
+							order = 4,
+							name = L["Direction Marks Color"],
+							desc = L["Color of Compass Direction Marks (you can also set alpha here)"],
+							type = "color",
+							hasAlpha  = true,
+							disabled = function(info) return not cfg.HUD.ShowCompass end,
+							get =
+							function(info)
+								local c = cfg.HUD.CompassTextColor
+								return c.r, c.g, c.b, c.a
+							end,
+							set =
+							function(info, r, g, b, a)
+								local c = cfg.HUD.CompassTextColor
+								c.r, c.g, c.b, c.a = r, g, b, a
+								addon:HUD_config_update()
+							end,
+						},
+
 					},
 				},
+				AnnulusSectors =
+				{
+					order = 3,
+					type = "group",
+					name = L["Annulus Sectors Settings"],
+					inline = true,
+					get = function(info) return cfg.HUD[info[#info]] end,
+					set = function(info,val)
+						cfg.HUD[info[#info]] = val
+						addon:UpdateAlphaEverything()
+					end,
+					args = (function()
+						local ret = {}
+						for id,cname in ipairs(id2cname) do
+							ret[cname.."SectAlpha"] = {
+								order = id*2,
+								name = L["%s Sector Alpha"]:format(L[cname]),
+								desc = L["How transparent is %s Annulus Sector"]:format(L[cname]),
+								type = "range",
+								min = 0,
+								max = 1,
+								step = 0.01,
+								isPercent = true,
+							}
+							ret[cname.."LineAlpha"] = {
+								order = id*2+1,
+								name = L["%s Line Alpha"]:format(L[cname]),
+								desc = L["How transparent is %s Direction Line"]:format(L[cname]),
+								type = "range",
+								min = 0,
+								max = 1,
+								step = 0.01,
+								isPercent = true,
+							}
+						end
+						return ret
+					end)()
+				},
 			},
+		},
+		DigSites =
+		{
+			order = 4,
+			name = L["Dig Sites"],
+			desc = L["Dig Sites"],
+			type = "group",
+			args =
+			{
+				ShowOnBattlefieldMinimap =
+				{
+					order = 1,
+					name = L["Show digsites on the Battlefield Minimap"],
+					desc = L["Use |cff69ccf0Shift-M|r to open or hide Battlefield Minimap"],
+					type = "toggle",
+					width = "full",
+					get = function(info) return cfg.DigSites.ShowOnBattlefieldMinimap end,
+					set =
+					function(info,val)
+						cfg.DigSites.ShowOnBattlefieldMinimap = val
+						SetVisible(Arh_ArchaeologyDigSites_BattlefieldMinimap, val)
+					end,
+				},
+				ShowOnMinimap =
+				{
+					order = 2,
+					name = L["Show digsites on the Minimap"],
+					desc = string.format(L["You can also use %s command for this action"],"|cff69ccf0/arh mm|r"),
+					type = "toggle",
+					width = "full",
+					get = function(info) return addon:GetDigsiteTracking() end,
+					set = function(info,val) addon:SetDigsiteTracking(val) end,
+				},
+			},
+		},
 
-		}
+	}
 }
 
 function Arh_ShowTooltip(self)
@@ -929,21 +926,21 @@ end
 
 local function SetTooltips()
 	Arh_MainFrame.TooltipText =
-		function(self)
-			if cfg.MainFrame.Locked then
-				return cs(L["Right Click"])..": "..L["Show/Hide Config"]
-			else
-				return cs(L["Left Click"])..": "..L["move window"].."\n"..cs(L["Right Click"])..": "..L["Show/Hide Config"]
-			end
+	function(self)
+		if cfg.MainFrame.Locked then
+			return cs(L["Right Click"])..": "..L["Show/Hide Config"]
+		else
+			return cs(L["Left Click"])..": "..L["move window"].."\n"..cs(L["Right Click"])..": "..L["Show/Hide Config"]
 		end
+	end
 	for id, button in ipairs(addon.colorButton) do
-	  local cname = id2cname[id]:lower()
-	  button.TooltipText = cs(L["Left Click"])..": "..L["add new %s zone to the HUD"]:format(L[cname]).."\n"..
-                               cs(L["Right Click"])..": "..L["show/hide all %s areas on the HUD"]:format(L[cname])
+		local cname = id2cname[id]:lower()
+		button.TooltipText = cs(L["Left Click"])..": "..L["add new %s zone to the HUD"]:format(L[cname]).."\n"..
+				cs(L["Right Click"])..": "..L["show/hide all %s areas on the HUD"]:format(L[cname])
 	end
 	Arh_MainFrame_ButtonDig.TooltipText = cs(L["Left Click"])..": "..L["cast Survey"].."\n"..
-                                              cs(L["Right Click"])..": "..L["Show/Hide the HUD"].."\n"..
-                                              cs(L["Middle Click"])..": "..L["Open archaeology window"]
+			cs(L["Right Click"])..": "..L["Show/Hide the HUD"].."\n"..
+			cs(L["Middle Click"])..": "..L["Open archaeology window"]
 	Arh_MainFrame_ButtonBack.TooltipText = cs(L["Left Click"])..": "..L["remove one previously added area"]
 end
 
@@ -1039,7 +1036,7 @@ local function GetCached(color)
 end
 function addon:ReturnAllToCache()
 	for i=1,#addon.ConsArray do
-	  addon:ReturnLastToCache()
+		addon:ReturnLastToCache()
 	end
 end
 function addon:ReturnLastToCache()
@@ -1062,9 +1059,9 @@ end
 local function AddCon(color, x, y, a)
 	local item = GetCached(color)
 	if not item then
-	  item = {}
-	  item.texture = CreateCon(Arh_HudFrame, color)
-	  item.texture_line = CreateLine(Arh_HudFrame, color, item.texture)
+		item = {}
+		item.texture = CreateCon(Arh_HudFrame, color)
+		item.texture_line = CreateLine(Arh_HudFrame, color, item.texture)
 	end
 	item.color = color
 	item.x = x
@@ -1095,7 +1092,7 @@ end
 
 function addon:UpdateConsPositions(player_x, player_y, player_a)
 	local cos, sin = math.cos(player_a), math.sin(player_a)
-	
+
 	for _,item in ipairs(addon.ConsArray) do
 		--print(item.x .. "   " .. player_x)
 		--print(item.y .. "   " .. player_y)
@@ -1103,7 +1100,7 @@ function addon:UpdateConsPositions(player_x, player_y, player_a)
 		local x = dx*cos - dy*sin
 		local y = dx*sin + dy*cos
 		local rot = item.a-player_a
-	
+
 		--item.texture:ClearAllPoints()
 		-- 4000 = too fast
 		item.texture:SetPoint("CENTER", Arh_HudFrame, "CENTER", x*PixelsInYardOnHud, -y*PixelsInYardOnHud)
@@ -1129,10 +1126,10 @@ function addon:UpdateAlphaEverything()
 		addon:UpdateAlpha(item.texture, item.color, false)
 	end
 	for color in ipairs(id2cname) do
-	  for _,item in ipairs(addon.ConsCache[color]) do
-		addon:UpdateAlpha(item.texture_line, color, true)
-		addon:UpdateAlpha(item.texture, color, false)
-	  end
+		for _,item in ipairs(addon.ConsCache[color]) do
+			addon:UpdateAlpha(item.texture_line, color, true)
+			addon:UpdateAlpha(item.texture, color, false)
+		end
 	end
 end
 
@@ -1143,94 +1140,94 @@ end
 
 local _lastmapid, _lastmaptext
 function addon:GetPos()
-  --local oldcont = GetCurrentMapContinent()
-  --local oldmap = GetCurrentMapAreaID()
-  --local oldlvl = GetCurrentMapDungeonLevel()
-  local oldmap = C_Map.GetBestMapForUnit('player')
-  local mappos = C_Map.GetPlayerMapPosition(oldmap, 'player')
-  local oldcont = C_Map.GetWorldPosFromMapPos(oldmap, mappos)
-  local oldlvl = 0
-  local map = oldmap
-  local level = oldlvl
-  local text = GetRealZoneText()
-  local flicker
-  if map ~= _lastmapid or text ~= _lastmaptext then -- try to avoid unnecessary map sets
-    if WorldMapFrame and WorldMapFrame:IsVisible() then -- prevent map flicker
-      if WorldMapFrame:IsMouseOver() then
-        return 0,0,map,0
-      end
-      WorldMapFrame:Hide()
-      flicker = true
-    end
-    --SetMapToCurrentZone()
-    --map = GetCurrentMapAreaID()
-    local map = C_Map.GetBestMapForUnit('player')
-    --level = GetCurrentMapDungeonLevel();
-    level = 0
-    --print("SetMapToCurrentZone: "..oldmap.."->"..map)
-    _lastmapid = map
-    _lastmaptext = text
-  end
-  
-  local x, y = C_Map.GetPlayerMapPosition(map, "player"):GetXY()  
-  
-  if flicker then
-    WorldMapFrame:Show()
-    if oldmap ~= map then
-      SetMapZoom(oldcont)
-      SetMapByID(oldmap)
-      _lastmapid = nil
-    end
-    if oldlvl and oldlvl > 0 then
-      SetDungeonMapLevel(oldlvl)
-    end
-  end
-  return x,y,map,level
+	--local oldcont = GetCurrentMapContinent()
+	--local oldmap = GetCurrentMapAreaID()
+	--local oldlvl = GetCurrentMapDungeonLevel()
+	local oldmap = C_Map.GetBestMapForUnit('player')
+	local mappos = C_Map.GetPlayerMapPosition(oldmap, 'player')
+	local oldcont = C_Map.GetWorldPosFromMapPos(oldmap, mappos)
+	local oldlvl = 0
+	local map = oldmap
+	local level = oldlvl
+	local text = GetRealZoneText()
+	local flicker
+	if map ~= _lastmapid or text ~= _lastmaptext then -- try to avoid unnecessary map sets
+		if WorldMapFrame and WorldMapFrame:IsVisible() then -- prevent map flicker
+			if WorldMapFrame:IsMouseOver() then
+				return 0,0,map,0
+			end
+			WorldMapFrame:Hide()
+			flicker = true
+		end
+		--SetMapToCurrentZone()
+		--map = GetCurrentMapAreaID()
+		local map = C_Map.GetBestMapForUnit('player')
+		--level = GetCurrentMapDungeonLevel();
+		level = 0
+		--print("SetMapToCurrentZone: "..oldmap.."->"..map)
+		_lastmapid = map
+		_lastmaptext = text
+	end
+
+	local x, y = C_Map.GetPlayerMapPosition(map, "player"):GetXY()
+
+	if flicker then
+		WorldMapFrame:Show()
+		if oldmap ~= map then
+			SetMapZoom(oldcont)
+			SetMapByID(oldmap)
+			_lastmapid = nil
+		end
+		if oldlvl and oldlvl > 0 then
+			SetDungeonMapLevel(oldlvl)
+		end
+	end
+	return x,y,map,level
 end
 
 function addon:GetPosYards()
-  local x,y,map,level = addon:GetPos()
-  
-  if x and y and map and x + y > 0 then
-    --local id, _, _, left, right, top, bottom = GetAreaMapInfo(map)
-	--[[local hitrect = C_MapExplorationInfo.GetExploredMapTextures(map)
-	local top, bottom, left, right
-	for key, value in next, hitrect do
-		for k, v in next, value do
-			if k == "hitRect" then
-				for r, t in next, v do
-					if r == "bottom" then bottom = t end
-					if r == "top" then top = t end
-					if r == "left" then left = t end
-					if r == "right" then right = t end
-				end
-			end
+	local x,y,map,level = addon:GetPos()
+
+	if x and y and map and x + y > 0 then
+		--local id, _, _, left, right, top, bottom = GetAreaMapInfo(map)
+		--[[local hitrect = C_MapExplorationInfo.GetExploredMapTextures(map)
+        local top, bottom, left, right
+        for key, value in next, hitrect do
+            for k, v in next, value do
+                if k == "hitRect" then
+                    for r, t in next, v do
+                        if r == "bottom" then bottom = t end
+                        if r == "top" then top = t end
+                        if r == "left" then left = t end
+                        if r == "right" then right = t end
+                    end
+                end
+            end
+        end]]--
+		local vector00, vector05 = CreateVector2D(0, 0), CreateVector2D(0.5, 0.5)
+		local mapID = C_Map.GetBestMapForUnit('player');
+		local instance, topLeft = C_Map.GetWorldPosFromMapPos(mapID, vector00)
+		local _, bottomRight = C_Map.GetWorldPosFromMapPos(mapID, vector05)
+		local top, left = topLeft:GetXY()
+		local bottom, right = bottomRight:GetXY()
+		bottom = top + (bottom - top) * 2
+		right = left + (right - left) * 2
+
+		--[[
+        if left == right or top == bottom then
+          -- instanced areas should never be relevant to arch, but useful for testing
+          _, right, left, bottom, top = GetDungeonMapInfo(map)
+        end
+        --]]
+		if left and right and left > right then
+			x = x * (left - right)
 		end
-	end]]--
-  local vector00, vector05 = CreateVector2D(0, 0), CreateVector2D(0.5, 0.5)
-  local mapID = C_Map.GetBestMapForUnit('player');
-  local instance, topLeft = C_Map.GetWorldPosFromMapPos(mapID, vector00)
-  local _, bottomRight = C_Map.GetWorldPosFromMapPos(mapID, vector05)
-  local top, left = topLeft:GetXY()
-  local bottom, right = bottomRight:GetXY()
-  bottom = top + (bottom - top) * 2
-  right = left + (right - left) * 2
-	
-	--[[
-    if left == right or top == bottom then 
-      -- instanced areas should never be relevant to arch, but useful for testing
-      _, right, left, bottom, top = GetDungeonMapInfo(map)
-    end
-	--]]
-    if left and right and left > right then
-      x = x * (left - right)
-    end
-    if bottom and top and bottom < top then
-      y = y * (top - bottom)
-    end
-  end
-  
-  return x,y,map,level
+		if bottom and top and bottom < top then
+			y = y * (top - bottom)
+		end
+	end
+
+	return x,y,map,level
 end
 
 local function Distance(xa, ya, xb, yb)
@@ -1269,9 +1266,9 @@ local function CalcAngle(xa, ya, xb, yb)
 end
 
 local function AddPoint(color)
-    local jax, jay = addon:GetPosYards()
+	local jax, jay = addon:GetPosYards()
 	a = GetPlayerFacing()
-	
+
 	AddCon(color, jax, jay, a)
 	PlaySound(SOUND_ADDCON)
 end
@@ -1302,16 +1299,16 @@ local function ToggleColorButton(self, enable)
 end
 
 function Arh_MainFrame_ColorButton_OnMouseDown(self, button)
-  if button == "LeftButton" then
-    local id = self:GetID()
-    AddPoint(id)
-    if cfg.MainFrame["Mount"..id2cname[id]] 
-       and not self:GetAttribute("type") then -- travel form handled by secure button
-      addon:mount()
-    end
-  elseif button == "RightButton" then
-    ToggleColorButton(self)
-  end
+	if button == "LeftButton" then
+		local id = self:GetID()
+		AddPoint(id)
+		if cfg.MainFrame["Mount"..id2cname[id]]
+				and not self:GetAttribute("type") then -- travel form handled by secure button
+			addon:mount()
+		end
+	elseif button == "RightButton" then
+		ToggleColorButton(self)
+	end
 end
 
 function Arh_MainFrame_ButtonBack_OnMouseDown(self, button)
@@ -1343,37 +1340,37 @@ function addon:SaveDifs()
 end
 
 function addon:OnGathering()
---	addon:SaveDifs()
+	--	addon:SaveDifs()
 	addon:ReturnAllToCache()
 	for _, button in ipairs(addon.colorButton) do
-	  ToggleColorButton(button, true)
+		ToggleColorButton(button, true)
 	end
---	PlaySound(SOUND_GATHERING)
+	--	PlaySound(SOUND_GATHERING)
 end
 
 function addon:mount()
-  if InCombatLockdown() or IsMounted() or IsFlying() then return end
-  (C_MountJournal.Summon or C_MountJournal.SummonByID)(0) -- random favorite mount
+	if InCombatLockdown() or IsMounted() or IsFlying() then return end
+	(C_MountJournal.Summon or C_MountJournal.SummonByID)(0) -- random favorite mount
 end
 
 function addon:init_travelform()
-  -- setup secure buttons for travel form mounting
-  if InCombatLockdown() then return end
-  local mt
-  local spellid = 783 -- travel form
-  if select(2,UnitClass("player")) == "DRUID" and
-     IsPlayerSpell(spellid) then -- spell learned (currently level 16)
-     mt = string.format("/cast [nostance:3,nocombat] %s", GetSpellInfo(spellid))
-  elseif (GetItemCount(37011, false) or 0) > 0 then -- Magic Broom
-     mt = "/use item:37011"
-  end
-  for id, button in ipairs(addon.colorButton) do
-       local set = cfg.MainFrame["Mount"..id2cname[id]] and mt or nil
-       if button:GetAttribute("macrotext") ~= set then
-         button:SetAttribute("type", set and "macro")
-         button:SetAttribute("macrotext", set)
-       end
-  end
+	-- setup secure buttons for travel form mounting
+	if InCombatLockdown() then return end
+	local mt
+	local spellid = 783 -- travel form
+	if select(2,UnitClass("player")) == "DRUID" and
+			IsPlayerSpell(spellid) then -- spell learned (currently level 16)
+		mt = string.format("/cast [nostance:3,nocombat] %s", GetSpellInfo(spellid))
+	elseif (GetItemCount(37011, false) or 0) > 0 then -- Magic Broom
+		mt = "/use item:37011"
+	end
+	for id, button in ipairs(addon.colorButton) do
+		local set = cfg.MainFrame["Mount"..id2cname[id]] and mt or nil
+		if button:GetAttribute("macrotext") ~= set then
+			button:SetAttribute("type", set and "macro")
+			button:SetAttribute("macrotext", set)
+		end
+	end
 end
 
 function Arh_MainFrame_ButtonDig_OnMouseDown(self, button)
@@ -1413,19 +1410,19 @@ local function handler(msg, editbox)
 		addon:ToggleHUD()
 
 	elseif msg=='addred' or msg=='ar' then
-	  	Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonRed, "LeftButton")
+		Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonRed, "LeftButton")
 	elseif msg=='addyellow' or msg=='ay' then
-	  	Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonYellow, "LeftButton")
+		Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonYellow, "LeftButton")
 	elseif msg=='addgreen' or msg=='ag' then
-	  	Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonGreen, "LeftButton")
+		Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonGreen, "LeftButton")
 
 
 	elseif msg=='togglered' or msg=='tr' then
-	  	Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonRed, "RightButton")
+		Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonRed, "RightButton")
 	elseif msg=='toggleyellow' or msg=='ty' then
-	  	Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonYellow, "RightButton")
+		Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonYellow, "RightButton")
 	elseif msg=='togglegreen' or msg=='tg' then
-	  	Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonGreen, "RightButton")
+		Arh_MainFrame_ColorButton_OnMouseDown(Arh_MainFrame_ButtonGreen, "RightButton")
 
 	elseif msg=='back' or msg=='b' then
 		Arh_MainFrame_ButtonBack_OnMouseDown(Arh_MainFrame_ButtonBack, "LeftButton")
@@ -1476,8 +1473,8 @@ function Arh_MainFrame_OnEvent(self, event, ...)
 		OnAddonLoaded(...)
 	elseif event == "UNIT_SPELLCAST_SENT" then
 		OnSpellSent(...)
-	elseif event == "SPELLS_CHANGED" then 
-	        -- ticket 58: IsPlayerSpell(travel form) not available at static load, and may change with level up
+	elseif event == "SPELLS_CHANGED" then
+		-- ticket 58: IsPlayerSpell(travel form) not available at static load, and may change with level up
 		addon:init_travelform()
 	else
 		addon:CheckSuppress()
@@ -1506,31 +1503,31 @@ function Arh_MainFrame_Init()
 	ConfigDialog:AddToBlizOptions("Archaeology Helper", "Arh")
 
 	LDB = LibStub:GetLibrary("LibDataBroker-1.1",true)
-   	LDBo = LDB:NewDataObject(addonName, {
-        	type = "launcher",
-        	label = addonName,
-        	icon = "Interface\\Icons\\inv_misc_shovel_01",
-        	OnClick = function(self, button)
-		  if button == "LeftButton" then
-			addon:ToggleMainFrame()
-                  elseif button == "RightButton" then
-                        addon:Config()
-                  else
-		  	addon:ToggleArch()
-                  end
-         	end,
-        	OnTooltipShow = function(tooltip)
-                  if tooltip and tooltip.AddLine then
-                        tooltip:SetText(addonName)
-                        tooltip:AddLine(cs(L["Left Click"])..": "..L["Show/Hide the Main Window"])
-                        tooltip:AddLine(cs(L["Right Click"])..": "..L["Show/Hide Config"])
-                        tooltip:AddLine(cs(L["Middle Click"])..": "..L["Open archaeology window"])
-                        tooltip:Show()
-                  end
-        	end,
-     	})
+	LDBo = LDB:NewDataObject(addonName, {
+		type = "launcher",
+		label = addonName,
+		icon = "Interface\\Icons\\inv_misc_shovel_01",
+		OnClick = function(self, button)
+			if button == "LeftButton" then
+				addon:ToggleMainFrame()
+			elseif button == "RightButton" then
+				addon:Config()
+			else
+				addon:ToggleArch()
+			end
+		end,
+		OnTooltipShow = function(tooltip)
+			if tooltip and tooltip.AddLine then
+				tooltip:SetText(addonName)
+				tooltip:AddLine(cs(L["Left Click"])..": "..L["Show/Hide the Main Window"])
+				tooltip:AddLine(cs(L["Right Click"])..": "..L["Show/Hide Config"])
+				tooltip:AddLine(cs(L["Middle Click"])..": "..L["Open archaeology window"])
+				tooltip:Show()
+			end
+		end,
+	})
 
-    	minimapIcon:Register(addonName, LDBo, cfg.Minimap)
+	minimapIcon:Register(addonName, LDBo, cfg.Minimap)
 	minimapIcon:Refresh(addonName)
 
 	SetVisible(Arh_MainFrame, cfg.MainFrame.Visible)
@@ -1546,12 +1543,12 @@ function Arh_MainFrame_Init()
 
 	Arh_MainFrame:RegisterEvent("UNIT_SPELLCAST_SENT")
 	for _,evt in pairs({ "ZONE_CHANGED", "ZONE_CHANGED_INDOORS", "ZONE_CHANGED_NEW_AREA",
-	                     "PLAYER_UPDATE_RESTING", "PLAYER_ALIVE", "PLAYER_DEAD",
-			     "PET_BATTLE_OPENING_START", "PET_BATTLE_CLOSE", "PET_BATTLE_OVER",
-			     "UNIT_ENTERED_VEHICLE", "UNIT_EXITED_VEHICLE",
-			     "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED",
-			     "SPELLS_CHANGED"
-			     }) do
+						 "PLAYER_UPDATE_RESTING", "PLAYER_ALIVE", "PLAYER_DEAD",
+						 "PET_BATTLE_OPENING_START", "PET_BATTLE_CLOSE", "PET_BATTLE_OVER",
+						 "UNIT_ENTERED_VEHICLE", "UNIT_EXITED_VEHICLE",
+						 "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED",
+						 "SPELLS_CHANGED"
+	}) do
 		Arh_MainFrame:RegisterEvent(evt)
 	end
 	SetTooltips()
@@ -1565,8 +1562,8 @@ function Arh_MainFrame_Init()
 	end
 
 	for id, button in ipairs(addon.colorButton) do
-	  InitCancelableButton(button)
-	  button:SetHitRectInsets(6,6,6,6)
+		InitCancelableButton(button)
+		button:SetHitRectInsets(6,6,6,6)
 	end
 	InitCancelableButton(Arh_MainFrame_ButtonDig)
 
@@ -1621,7 +1618,8 @@ end
 
 function Arh_ArchaeologyDigSites_BattlefieldMinimap_OnUpdate(self, elapsed)
 	self:DrawNone()
-	local numEntries = ArchaeologyMapUpdateAll()
+	local mapID = C_Map.GetBestMapForUnit("player")
+	local numEntries = ArchaeologyMapUpdateAll(mapID)
 	for i = 1, numEntries do
 		local blobID = ArcheologyGetVisibleBlobID(i)
 		self:DrawBlob(blobID, true)
@@ -1645,18 +1643,18 @@ function Arh_UpdateHudFrameSizes(force)
 	UIParent_Height_old = UIParent_Height
 	--print("Arh_UpdateHudFrameSizes")
 
--- HUD Frame
+	-- HUD Frame
 	Arh_HudFrame:SetScale(cfg.HUD.Scale)
 	local size = UIParent_Height
 	Arh_HudFrame:SetSize(size, size)
 
 	local HudPixelsInYard = size / minimap_size[indoors][zoom]
 
--- Success Circle
+	-- Success Circle
 	local success_diameter = 16 * HudPixelsInYard
 	Arh_HudFrame.SuccessCircle:SetSize(success_diameter, success_diameter)
 
--- Compass
+	-- Compass
 	local compass_radius = cfg.HUD.CompassRadius * HudPixelsInYard
 	local compass_diameter = 2 * compass_radius
 	Arh_HudFrame.CompassCircle:SetSize(compass_diameter, compass_diameter)
@@ -1672,8 +1670,8 @@ end
 function addon:HUD_config_update()
 	Arh_HudFrame:SetParent(UIParent)
 	Arh_HudFrame:ClearAllPoints()
-	Arh_HudFrame:SetPoint("CENTER", (cfg.HUD.PosX or 0)*GetScreenWidth()/(cfg.HUD.Scale or 1), 
-	                                (cfg.HUD.PosY or 0)*GetScreenHeight()/(cfg.HUD.Scale or 1))
+	Arh_HudFrame:SetPoint("CENTER", (cfg.HUD.PosX or 0)*GetScreenWidth()/(cfg.HUD.Scale or 1),
+			(cfg.HUD.PosY or 0)*GetScreenHeight()/(cfg.HUD.Scale or 1))
 	Arh_HudFrame:EnableMouse(false)
 	Arh_HudFrame:SetFrameStrata("BACKGROUND")
 
@@ -1690,7 +1688,7 @@ function addon:HUD_config_update()
 	local c = cfg.HUD.SuccessCircleColor
 	Arh_HudFrame.SuccessCircle:SetVertexColor(c.r,c.g,c.b,c.a)
 	SetVisible(Arh_HudFrame.SuccessCircle, cfg.HUD.ShowSuccessCircle)
-	
+
 	-- Compass Circle
 	Arh_HudFrame.CompassCircle:SetPoint("CENTER")
 	c = cfg.HUD.CompassColor
@@ -1715,7 +1713,7 @@ function Arh_HudFrame_Init()
 	Arh_HudFrame.CompassCircle:SetTexture(165793)
 	Arh_HudFrame.CompassCircle:SetBlendMode("ADD")
 
--- Compass Text
+	-- Compass Text
 	local directions = {}
 	local indicators = {"N", "NE", "E", "SE", "S", "SW", "W", "NW"}
 	for k, v in ipairs(indicators) do
@@ -1762,7 +1760,7 @@ function Arh_HudFrame_OnUpdate(frame, elapsed)
 		-- end
 
 		Arh_UpdateHudFrameSizes()
-		
+
 		if cfg.HUD.ShowCompass then
 			for k, v in ipairs(Arh_HudFrame.CompasDirections) do
 				local x, y = math.sin(v.angle + pa), math.cos(v.angle + pa)
@@ -1778,25 +1776,25 @@ end
 local vishooked, enablehooked
 local GMonHud
 local function DisableNonArchPins()
-  if not GatherMate2 then return end
-  local gmsettings = GatherMate2.db and GatherMate2.db.profile
-  if GMonHud then
-    local v = GatherMate2.Visible
-    if not v then return end
-    if cfg.HUD.ArchOnly then
-      for i,_ in pairs(v) do
-        v[i] = false
-      end
-    end
-    v["Archaeology"] = true
-    if gmsettings and not gmsettings.showMinimap then
-      gmsettings.showMinimap = true -- Gm2 minimap pins must be enabled for us to use them
-      gmsettings.showMinimapSuppressed = true
-    end
-  elseif gmsettings and gmsettings.showMinimapSuppressed then
-    gmsettings.showMinimap = false -- restore the minimap setting for hud disabled
-    gmsettings.showMinimapSuppressed = nil
-  end
+	if not GatherMate2 then return end
+	local gmsettings = GatherMate2.db and GatherMate2.db.profile
+	if GMonHud then
+		local v = GatherMate2.Visible
+		if not v then return end
+		if cfg.HUD.ArchOnly then
+			for i,_ in pairs(v) do
+				v[i] = false
+			end
+		end
+		v["Archaeology"] = true
+		if gmsettings and not gmsettings.showMinimap then
+			gmsettings.showMinimap = true -- Gm2 minimap pins must be enabled for us to use them
+			gmsettings.showMinimapSuppressed = true
+		end
+	elseif gmsettings and gmsettings.showMinimapSuppressed then
+		gmsettings.showMinimap = false -- restore the minimap setting for hud disabled
+		gmsettings.showMinimapSuppressed = nil
+	end
 end
 
 local OriginalRotationFlag
@@ -1805,11 +1803,11 @@ local function UseGatherMate2(use)
 	local Display = GatherMate2:GetModule("Display")
 	if not Display then return end
 	if use and not Display:IsEnabled() or not Display.updateFrame then -- ticket 36: before Display:OnEnable()
-	  if not enablehooked and Display.OnEnable then
-		hooksecurefunc(Display, "OnEnable", function() UseGatherMate2(use) end)
-		enablehooked = true
-	  end
-	  return
+		if not enablehooked and Display.OnEnable then
+			hooksecurefunc(Display, "OnEnable", function() UseGatherMate2(use) end)
+			enablehooked = true
+		end
+		return
 	end
 	if not vishooked and Display.UpdateVisibility then
 		hooksecurefunc(Display, "UpdateVisibility", DisableNonArchPins)
@@ -1826,7 +1824,7 @@ local function UseGatherMate2(use)
 		GMonHud = false
 	end
 	if Display.UpdateMaps then
-	  Display:UpdateMaps()
+		Display:UpdateMaps()
 	end
 end
 
