@@ -1,0 +1,135 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation="http://www.blizzard.com/wow/ui/ 
+ ..\..\FrameXML\UI.xsd">
+
+<GameTooltip name="Corah_Tooltip" frameStrata="TOOLTIP" hidden="true" inherits="GameTooltipTemplate"/>
+<Button name="CORAHButtonTemplate" inherits="SecureActionButtonTemplate" virtual="true">
+	<Size x="30" y="30"/>
+	<Scripts>
+		<OnEnter> Corah_ShowTooltip(self) </OnEnter>
+		<OnLeave> Corah_HideTooltip(self) </OnLeave>
+	</Scripts>
+</Button>
+<Button name="CORAHColorButtonTemplate" inherits="CORAHButtonTemplate" virtual="true">
+	<Scripts>
+		<OnMouseDown function="Corah_MainFrame_ColorButton_OnMouseDown"/>
+		<OnLoad>Corah.colorButton[self:GetID()] = self</OnLoad>
+	</Scripts>
+</Button>
+<Frame  name="Corah_MainFrame" parent="UIParent" enableMouse="true" movable="true" inherits="BackdropTemplate">
+	<Anchors>
+		<Anchor point="CENTER"/>
+	</Anchors>
+	<Size x="170" y="40"/>
+	<KeyValues>
+		<KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_4343" type="global"/>
+	</KeyValues>
+	<Frames>
+		<Frame name="Corah_HudFrame" hidden="true">
+			<Size x="140" y="140"/>
+			<Anchors>
+				<Anchor point="CENTER"/>
+			</Anchors>
+			<Frames>
+				<Frame name="$parent_ArrowFrame">
+					<Size x="25" y="25"/>
+                    <Anchors> <Anchor point="CENTER"/> </Anchors>
+					<Layers>
+						<Layer level="BACKGROUND">
+							<Texture name="$parent_ArrowTexture" file="Interface\Minimap\MinimapArrow.blp">
+								<Size x="32" y="32"/>
+								<Anchors>
+									<Anchor point="TOPLEFT"/>
+									<Anchor point="BOTTOMRIGHT"/>
+								</Anchors>
+							</Texture>
+						</Layer>
+					</Layers>
+				</Frame>
+			</Frames>
+			<Scripts>
+				<OnLoad function="Corah_HudFrame_OnLoad"/>
+				<OnUpdate function="Corah_HudFrame_OnUpdate"/>
+				<OnShow function="Corah_HudFrame_OnShow"/>
+				<OnHide function="Corah_HudFrame_OnHide"/>
+			</Scripts>
+		</Frame>
+
+		<Button name="$parent_ButtonRed" inherits="CORAHColorButtonTemplate" id="3">
+			<Anchors>
+				<Anchor point="TOPLEFT" x="3" y="-5"/>
+			</Anchors>
+			<NormalTexture file="Interface\Minimap\TRACKING\OBJECTICONS">
+				<TexCoords left="0.25" right="0.375" top="0" bottom="0.5"/>
+			</NormalTexture>
+			<PushedTexture file="Interface\Minimap\TRACKING\OBJECTICONS">
+				<TexCoords left="0.625" right="0.75" top="0" bottom="0.5"/>
+			</PushedTexture>
+		</Button>
+		<Button name="$parent_ButtonYellow" inherits="CORAHColorButtonTemplate" id="2">
+			<Anchors>
+				<Anchor point="TOPLEFT" x="28" y="-5"/>
+			</Anchors>
+			<NormalTexture file="Interface\Minimap\TRACKING\OBJECTICONS">
+				<TexCoords left="0.375" right="0.5" top="0" bottom="0.5"/>
+			</NormalTexture>
+			<PushedTexture file="Interface\Minimap\TRACKING\OBJECTICONS">
+				<TexCoords left="0.75" right="0.875" top="0" bottom="0.5"/>
+			</PushedTexture>
+  		</Button>
+		<Button name="$parent_ButtonGreen" inherits="CORAHColorButtonTemplate" id="1">
+			<Anchors>
+				<Anchor point="TOPLEFT" x="53" y="-5"/>
+			</Anchors>
+			<NormalTexture file="Interface\Minimap\TRACKING\OBJECTICONS">
+				<TexCoords left="0.5" right="0.625" top="0" bottom="0.5"/>
+			</NormalTexture>
+			<PushedTexture file="Interface\Minimap\TRACKING\OBJECTICONS">
+				<TexCoords left="0.875" right="1" top="0" bottom="0.5"/>
+			</PushedTexture>
+		</Button>
+		<Button name="$parent_ButtonBack" inherits="CORAHButtonTemplate">
+			<Anchors>
+				<Anchor point="TOPLEFT" x="83" y="-5"/>
+			</Anchors>
+			<NormalTexture file="Interface\PaperDollInfoFrame\UI-Character-AmmoSlot">
+				<TexCoords left="0.651" right="1" top="0.159" bottom="0.508"/>
+			</NormalTexture>
+			<Scripts>
+				<OnMouseDown function="Corah_MainFrame_ButtonBack_OnMouseDown"/>
+			</Scripts>
+		</Button>
+		<Button name="$parent_ButtonDig" inherits="CORAHButtonTemplate" registerForClicks="AnyDown">
+			<Attributes>
+				<Attribute name="type" type="string" value="spell"/>
+				<Attribute name="spell" type="string" value="Survey"/>
+			</Attributes>
+			<Anchors>
+				<Anchor point="TOPLEFT" x="123" y="-5"/>
+			</Anchors>
+			<NormalTexture file="Interface\Archeology\arch-icon-marker"/>
+			<Scripts>
+				<OnMouseDown function="Corah_MainFrame_ButtonDig_OnMouseDown"/>
+			</Scripts>
+		</Button>
+		<ArchaeologyDigSiteFrame name="Corah_ArchaeologyDigSites_BattlefieldMinimap" hidden="true">
+		  	<Size x="1002" y="668"/>
+			<Scripts>
+				<OnLoad function="Corah_ArchaeologyDigSites_OnLoad"/>
+				<OnUpdate function="Corah_ArchaeologyDigSites_BattlefieldMinimap_OnUpdate"/>
+				<OnEnter> self:EnableMouse(false) </OnEnter>
+			</Scripts>
+		</ArchaeologyDigSiteFrame>
+	</Frames>
+	<Scripts>
+		<OnLoad function="Corah_MainFrame_OnLoad"/>
+		<OnEvent function="Corah_MainFrame_OnEvent"/>
+		<OnMouseDown function="Corah_MainFrame_OnMouseDown"/>
+		<OnMouseUp function="Corah_MainFrame_OnMouseUp"/>
+		<OnHide function="Corah_MainFrame_OnHide"/>
+		<OnEnter> Corah_ShowTooltip(self) </OnEnter>
+		<OnLeave> Corah_HideTooltip(self) </OnLeave>
+	</Scripts>
+</Frame>
+</Ui> 
