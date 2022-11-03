@@ -1,6 +1,6 @@
 # ARH Fan Update
 
-Updated Arh WoW addon. This is a fan-maintained update.
+Updated Arh WoW addon. This is a fan-maintained update for retail. Tested working with DF prepatch.
 
 [Old Version on Curse](https://www.curseforge.com/wow/addons/arh)
 
