@@ -14,6 +14,12 @@ Updated Arh WoW addon. This is a fan-maintained update for retail. Tested workin
 ### HUD
 On the HUD you can also see player arrow in the center and very small red circle that represents survey success range. And ofc all colored transparent overlapping areas that were set by you with colored buttons.
 
+### Installation
+1. Get the zip of the source 
+2. Unzip the contents, you'll have the folder named 'Arh-something' with files inside
+3. Rename the folder to 'Arh' 
+4. Put it into your "World of Warcraft_retail_\Interface\AddOns" directory
+
 ### Instructions
 1. Go to dig site, Right Click last button (spade) to show HUD and Left Click to cast Survey. 
 2. ROTATE YOUR CHAR, BUT DON'T MOVE in the needed direction and press colored button according to Survey result. 
