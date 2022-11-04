@@ -5,22 +5,22 @@ Updated Arh WoW addon. This is a fan-maintained update for retail. Tested workin
 [Old Version on Curse](https://www.curseforge.com/wow/addons/arh)
 
 ### Archaeology Helper accelerates your surveying by providing triangulation on a Heads-Up Display (HUD)
-- Survey 
+- Survey Button
 - Green, yellow, or red button to add new sector to the HUD and narrow down the position of your fragment
-- HUD optionally includes GatherMate2 pins showing possible fragment positions, further accelerating the process
-- Shows Dig Sites on Battlefield Minimap
-- Keybindings and various settings
+- Keybindings and various settings in the addon config GUI
+- (Optional) HUD includes GatherMate2 pins showing possible fragment positions, further accelerating the process
+- (Optional) Shows Dig Sites on Battlefield Minimap
 
-### HUD
-On the HUD you can also see player arrow in the center and very small red circle that represents survey success range. And ofc all colored transparent overlapping areas that were set by you with colored buttons.
+### HUD/Overlay
+On the HUD you can also see player arrow in the center and very small red circle that represents survey success range and all colored transparent overlapping areas that were set by you with colored buttons.
 
 ### Installation
 1. Get the zip of the source 
-2. Unzip the contents, you'll have the folder named 'Arh-something' with files inside
-3. Rename the folder to 'Arh' 
-4. Put it into your "World of Warcraft_retail_\Interface\AddOns" directory
+2. Unzip the contents, you'll have the folder named ```Arh-something``` with files inside
+3. Rename the folder to ```Arh```
+4. Put it into your ```World of Warcraft\_retail_\Interface\AddOns``` directory
 
-### Instructions
+### Usage
 1. Go to dig site, Right Click last button (spade) to show HUD and Left Click to cast Survey. 
 2. ROTATE YOUR CHAR, BUT DON'T MOVE in the needed direction and press colored button according to Survey result. 
 3. Move to other location, do same again.
@@ -29,15 +29,11 @@ On the HUD you can also see player arrow in the center and very small red circle
 ### Controls
 - Left Click main window to move it
 - Right Click main window: opens config
-
 - Left Click on colored button: adds new sector to the HUD
 - Right Click on colored button: temporarily hide/show that color
-
 - Arrow button: undo last sector
-
 - Left Click spade: cast Survey
 - Right Click spade: show/hide the HUD
 - Middle Click spade: open Archaeology window
-
 - Use "/arh" for command line help
 
