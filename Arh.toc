@@ -1,4 +1,4 @@
-## Interface: 100000
+## Interface: 100002
 ## Title: Arhaeology Helper |cFF0099FF[FanUpdate for DF]|r
 ## Author: Biasha and oscarucb wrote it, fans maintained this
 ## Notes: Help you with your excavations with love.
