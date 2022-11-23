@@ -100,7 +100,7 @@
 				<OnMouseDown function="Arh_MainFrame_ButtonBack_OnMouseDown"/>
 			</Scripts>
 		</Button>
-		<Button name="$parent_ButtonDig" inherits="ARHButtonTemplate" registerForClicks="AnyDown">
+		<Button name="$parent_ButtonDig" inherits="ARHButtonTemplate" registerForClicks="LeftButtonDown, LeftButtonUp">
 			<Attributes>
 				<Attribute name="type" type="string" value="spell"/>
 				<Attribute name="spell" type="string" value="Survey"/>
