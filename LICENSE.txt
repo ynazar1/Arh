@@ -1,4 +1,10 @@
-Original parts of Arh addon Rights are Reserved by their respective authors.
-Updated Parts are under MIT licence.
-Sounds/Graphics are under fair use.
-Just don't copy this thing without giving credit.
+Original parts of Arh addon Rights are Reserved by their respective authors
+With the original authors not responding to requests and seemingly inactive, this puts the licensing into a limbo
+
+This is for personal,non-commerical, and free use only.  
+
+Updated Parts are under MIT licence as I need to add a license here
+
+Sounds/Graphics are under fair use from Blizzard assets.
+
+TL;DR: Don't copy this without giving credit
