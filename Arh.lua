@@ -1814,13 +1814,13 @@ local function UseGatherMate2(use)
 		vishooked = true
 	end
 	if use then
-		OriginalRotationFlag = GetCVar("rotateMinimap")
+		OriginalRotationFlag = GetCVar("rotateMinimap") == "1"
 		Display:ReparentMinimapPins(Arh_HudFrame)
-		Display:ChangedVars(nil, "ROTATE_MINIMAP", "1")
+		Display:ChangedVars(nil, "rotateMinimap", "1")
 		GMonHud = true
 	else
 		Display:ReparentMinimapPins(Minimap)
-		Display:ChangedVars(nil, "ROTATE_MINIMAP", OriginalRotationFlag)
+		Display:ChangedVars(nil, "rotateMinimap", OriginalRotationFlag)
 		GMonHud = false
 	end
 	if Display.UpdateMaps then
