@@ -15,9 +15,8 @@ Updated Arh WoW addon. This is a fan-maintained update for retail. Tested workin
 On the HUD you can also see player arrow in the center and very small red circle that represents survey success range and all colored transparent overlapping areas that were set by you with colored buttons.
 
 ### Installation
-1. Get the zip of the source 
-2. Unzip the contents, you'll have the folder named ```Arh-something``` with files inside
-3. Rename the folder to ```Arh```
+1. Get the zip file from the releases section, it will have the libraries. 
+2. Unzip the contents, you'll have the folder named ```Arh``` with files inside
 4. Put it into your ```World of Warcraft\_retail_\Interface\AddOns``` directory
 
 ### Usage
