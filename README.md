@@ -19,9 +19,9 @@ On the HUD you can also see player arrow in the center and very small red circle
 2. Unzip the contents, you'll have the folder named ```Arh``` with files inside
 4. Put it into your ```World of Warcraft\_retail_\Interface\AddOns``` directory
 
-OR
+&nbsp;&nbsp;&nbsp;*or*
 
-Use [wowup application](https://wowup.io) and add this repo to pull the latest version.
+&nbsp;&nbsp;&nbsp;Use [wowup application](https://wowup.io) and add this repo to pull the latest version.
 
 ### Usage
 1. Go to dig site, Right Click last button (spade) to show HUD and Left Click to cast Survey. 
