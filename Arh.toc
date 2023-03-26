@@ -1,8 +1,8 @@
-## Interface: 100005
+## Interface: 100007
 ## Title: Arhaeology Helper |cFF0099FF[FanUpdate for DF]|r
 ## Author: Biasha and oscarucb wrote it, fans maintained this
 ## Notes: Help you with your excavations with love.
-## Version: 2.0.4-05
+## Version: 2.0.4-07
 ## X-Build: 1
 ## X-ReleaseDate: 2022-11-03T11:00:00Z
 ## DefaultState: Enabled
