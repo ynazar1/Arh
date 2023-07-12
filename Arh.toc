@@ -1,4 +1,4 @@
-## Interface: 100100
+## Interface: 100105
 ## Title: Arhaeology Helper |cFF0099FF[FanUpdate for DF]|r
 ## Author: Biasha and oscarucb wrote it, fans maintained this
 ## Notes: Help you with your excavations with love.
@@ -11,6 +11,7 @@
 ## SavedVariables: Arh_Config
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
+## IconTexture: Interface\AddOns\Arh\img\shovel.tga
 
 embeds.xml
 
