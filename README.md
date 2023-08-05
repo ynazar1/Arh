@@ -2,7 +2,7 @@
 
 Updated Arh WoW addon. This is a fan-maintained update for retail. Tested working with DF prepatch.
 
-[Old Version on Curse](https://www.curseforge.com/wow/addons/arh)
+[Old & Broken Version on Curse](https://www.curseforge.com/wow/addons/arh) 
 
 ### Archaeology Helper accelerates your surveying by providing triangulation on a Heads-Up Display (HUD)
 - Survey Button
@@ -17,7 +17,7 @@ On the HUD you can also see player arrow in the center and very small red circle
 ### Installation
 1. Get the latest ```Arh-###.zip``` file from the releases section. 
 2. Unzip the contents, you'll have the folder named ```Arh``` with files inside
-4. Put it into your ```World of Warcraft\_retail_\Interface\AddOns``` directory
+3. Put it into your ```World of Warcraft\_retail_\Interface\AddOns``` directory
 
 &nbsp;&nbsp;&nbsp;*or*
 
