@@ -1,6 +1,6 @@
 # ARH Fan Update
 
-Updated Arh WoW addon. This is a fan-maintained update for retail. Tested working with DF prepatch.
+Updated Arh WoW addon. This is a fan-maintained update for retail. Tested working with DF 10.1.5.
 
 [Old & Broken Version on Curse](https://www.curseforge.com/wow/addons/arh) 
 
@@ -15,7 +15,7 @@ Updated Arh WoW addon. This is a fan-maintained update for retail. Tested workin
 On the HUD you can also see player arrow in the center and very small red circle that represents survey success range and all colored transparent overlapping areas that were set by you with colored buttons.
 
 ### Installation
-1. Get the latest ```Arh-###.zip``` file from the releases section. 
+1. Get the latest ```Arh-###.zip``` file from the [releases](https://github.com/ynazar1/Arh/releases) section. 
 2. Unzip the contents, you'll have the folder named ```Arh``` with files inside
 3. Put it into your ```World of Warcraft\_retail_\Interface\AddOns``` directory
 
