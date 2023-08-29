@@ -1,5 +1,7 @@
 # ARH Fan Update
 
+![arh_screenshot](https://github.com/ynazar1/Arh/assets/43916837/17d456aa-560a-4d5d-845e-d6625eff8bc7)
+
 Updated Arh WoW addon. This is a fan-maintained update for retail. Tested working with DF 10.1.5.
 
 [Old & Broken Version on Curse](https://www.curseforge.com/wow/addons/arh) 
