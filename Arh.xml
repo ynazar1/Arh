@@ -4,7 +4,7 @@
  ..\..\FrameXML\UI.xsd">
 
 <GameTooltip name="Arh_Tooltip" frameStrata="TOOLTIP" hidden="true" inherits="GameTooltipTemplate"/>
-<Button name="ARHButtonTemplate" inherits="SecureActionButtonTemplate" virtual="true">
+<Button name="ARHButtonTemplate" inherits="InsecureActionButtonTemplate" virtual="true" registerForClicks="LeftButtonDown, LeftButtonUp">
 	<Size x="30" y="30"/>
 	<Scripts>
 		<OnEnter> Arh_ShowTooltip(self) </OnEnter>
