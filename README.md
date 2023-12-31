@@ -10,6 +10,7 @@ Updated Arh WoW addon. This is a fan-maintained update for retail. Tested workin
 - Survey Button
 - Green, yellow, or red button to add new sector to the HUD and narrow down the position of your fragment
 - Keybindings and various settings in the addon config GUI
+- (Optional) Mount one of your favorited mounts (or druid flight form) while looking for fragments
 - (Optional) HUD includes GatherMate2 pins showing possible fragment positions, further accelerating the process
 - (Optional) Shows Dig Sites on Battlefield Minimap
 
