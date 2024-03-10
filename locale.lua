@@ -14,8 +14,8 @@ vars.L = setmetatable({},{
          not La[s] and url and not vars.locale_warning then
         vars.locale_warning = true
         print(string.format("*** %s needs help translating to your language! (%s)", addonName, locale))
-	      print("*** If you speak English, you can contribute by visiting:")
-	      print("*** "..url)
+        print("*** If you speak English, you can contribute by visiting:")
+        print("*** "..url)
       end
       return La[s] or Ld[s] or rawget(t,s) or s 
     end

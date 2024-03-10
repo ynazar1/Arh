@@ -1,13 +1,13 @@
 <Bindings>
-	<Binding name="CLICK Arh_MainFrame_ButtonDig:LeftButton" header="ARH" category="ADDONS"> </Binding>
-	<Binding name="ARH_SHOWARCH" category="ADDONS"> Arh:ToggleArch() </Binding>
-	<Binding name="ARH_TOGGLEMAIN" category="ADDONS"> Arh:ToggleMainFrame() </Binding>
-	<Binding name="ARH_TOGGLEHUD" category="ADDONS"> Arh:ToggleHUD() </Binding>
-	<Binding name="CLICK Arh_MainFrame_ButtonRed:LeftButton" category="ADDONS"> </Binding>
-	<Binding name="CLICK Arh_MainFrame_ButtonRed:RightButton" category="ADDONS"> </Binding>
-	<Binding name="CLICK Arh_MainFrame_ButtonYellow:LeftButton" category="ADDONS"> </Binding>
-	<Binding name="CLICK Arh_MainFrame_ButtonYellow:RightButton" category="ADDONS"> </Binding>
-	<Binding name="CLICK Arh_MainFrame_ButtonGreen:LeftButton" category="ADDONS"> </Binding>
-	<Binding name="CLICK Arh_MainFrame_ButtonGreen:RightButton" category="ADDONS"> </Binding>
-	<Binding name="CLICK Arh_MainFrame_ButtonBack:LeftButton" category="ADDONS"> </Binding>
+    <Binding name="CLICK Arh_MainFrame_ButtonDig:LeftButton" header="ARH" category="ADDONS"> </Binding>
+    <Binding name="ARH_SHOWARCH" category="ADDONS"> Arh:ToggleArch() </Binding>
+    <Binding name="ARH_TOGGLEMAIN" category="ADDONS"> Arh:ToggleMainFrame() </Binding>
+    <Binding name="ARH_TOGGLEHUD" category="ADDONS"> Arh:ToggleHUD() </Binding>
+    <Binding name="CLICK Arh_MainFrame_ButtonRed:LeftButton" category="ADDONS"> </Binding>
+    <Binding name="CLICK Arh_MainFrame_ButtonRed:RightButton" category="ADDONS"> </Binding>
+    <Binding name="CLICK Arh_MainFrame_ButtonYellow:LeftButton" category="ADDONS"> </Binding>
+    <Binding name="CLICK Arh_MainFrame_ButtonYellow:RightButton" category="ADDONS"> </Binding>
+    <Binding name="CLICK Arh_MainFrame_ButtonGreen:LeftButton" category="ADDONS"> </Binding>
+    <Binding name="CLICK Arh_MainFrame_ButtonGreen:RightButton" category="ADDONS"> </Binding>
+    <Binding name="CLICK Arh_MainFrame_ButtonBack:LeftButton" category="ADDONS"> </Binding>
 </Bindings>
