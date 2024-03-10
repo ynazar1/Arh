@@ -214,8 +214,8 @@ function addon:Config()
 end
 
 function addon:ToggleArch()
-	if not IsAddOnLoaded("Blizzard_ArchaeologyUI") then
-		local loaded, reason = LoadAddOn("Blizzard_ArchaeologyUI")
+	if not C_AddOns.IsAddOnLoaded("Blizzard_ArchaeologyUI") then
+		local loaded, reason = C_AddOns.LoadAddOn("Blizzard_ArchaeologyUI")
 		if not loaded then return end
 	end
 	if ArchaeologyFrame:IsShown() then
@@ -1737,7 +1737,7 @@ local function IsPlayerMoved(x, y, a)
 	ret = false
 	if arh_waiting_for_move then
 		if last_player_x ~= x or last_player_y ~= y then
-			print("arh: player moved")
+			-- print("arh: player moved")
 			ret = true
 		end
 	end
