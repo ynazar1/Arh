@@ -1,0 +1,21 @@
+## Interface: 40400
+## Title: Arhaeology Helper |cFF0099FF[FanUpdate for DF]|r
+## Author: Biasha and oscarucb wrote it, fans maintained this
+## Notes: Help you with your excavations with love.
+## Version: 2.0.4-120
+## X-Build: 1
+## X-ReleaseDate: 2022-11-03T11:00:00Z
+## DefaultState: Enabled
+## OptionalDeps: GatherMate2, LibDataBroker-1.1, LibDBIcon-1.0
+## X-Embeds: Ace3, LibDataBroker-1.1, LibDBIcon-1.0
+## SavedVariables: Arh_Config
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
+## IconTexture: Interface\AddOns\Arh\img\shovel.tga
+
+embeds.xml
+
+locale.lua
+
+arh.lua
+arh.xml
