@@ -1366,17 +1366,17 @@ function addon:init_travelform()
     if select(2,UnitClass("player")) == "DRUID" then -- check if player is druid
         -- Check which flying-/travel-form is learned
         if IsPlayerSpell(spellid_swiftFlyingForm) then            
-            spellid = spellid_swiftFlyingForm            
+            spellid = spellid_swiftFlyingForm
         elseif IsPlayerSpell(spellid_flyingForm) then
-            spellid = spellid_flyingForm            
+            spellid = spellid_flyingForm
         elseif IsPlayerSpell(spellid_travelForm) then
-            spellid = spellid_travelForm            
+            spellid = spellid_travelForm
         end
-    end  
+    end 
   
     if not(spellid == nil)  then
         mt = string.format("/cast [nostance:3,nocombat] %s", GetSpellInfo(spellid))
-    elseif (GetItemCount(37011, false) or 0) > 0 then -- Magic Broom                
+    elseif (GetItemCount(37011, false) or 0) > 0 then -- Magic Broom
         mt = "/use item:37011"
     end
     for id, button in ipairs(addon.colorButton) do
