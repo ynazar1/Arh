@@ -1467,7 +1467,7 @@ local function OnSpellSent(unit,target,rank,spellcast)
 end
 
 local function OnAddonLoaded(name)
-    if name=="Arh" and not addon.init then
+    if not addon.init then
         local start = debugprofilestop()
         if not Arh_Config then
             Arh_Config = CopyByValue(Arh_DefaultConfig)
@@ -1484,7 +1484,7 @@ local function OnAddonLoaded(name)
 end
 
 function Arh_MainFrame_OnEvent(self, event, ...)
-    if event == "ADDON_LOADED" then
+    if event == "PLAYER_LOGIN" then
         OnAddonLoaded(...)
     elseif event == "UNIT_SPELLCAST_SENT" then
         OnSpellSent(...)
@@ -1497,7 +1497,8 @@ function Arh_MainFrame_OnEvent(self, event, ...)
 end
 
 function Arh_MainFrame_OnLoad()
-    Arh_MainFrame:RegisterEvent("ADDON_LOADED")
+    -- Arh_MainFrame:RegisterEvent("ADDON_LOADED")
+    Arh_MainFrame:RegisterEvent("PLAYER_LOGIN")
 end
 
 local function InitCancelableButton(self)
