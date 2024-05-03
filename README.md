@@ -2,7 +2,11 @@
 
 ![arh_screenshot](https://github.com/ynazar1/Arh/assets/43916837/17d456aa-560a-4d5d-845e-d6625eff8bc7)
 
-Updated Arh WoW addon. This is a fan-maintained update for retail. Tested working with DF 10.1.5.
+Updated Arh WoW addon. This is a fan-maintained. 
+
+### Compatibility
+- Works with retail
+- Works with Cataclysm Classic, make sure to use [Gathermate2-classic](https://github.com/Nevcairiel/GatherMate2) with Cataclysm
 
 [Old & Broken Version on Curse](https://www.curseforge.com/wow/addons/arh) 
 
