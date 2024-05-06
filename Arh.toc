@@ -2,7 +2,7 @@
 ## Title: Archaeology Helper |cFF0099FF[FanUpdate]|r
 ## Author: Biasha and oscarucb wrote it, fans maintained this
 ## Notes: Help you with your excavations with love.
-## Version: 2.0.6-126
+## Version: 2.0.7-126
 ## DefaultState: Enabled
 ## OptionalDeps: GatherMate2, LibDataBroker-1.1, LibDBIcon-1.0
 ## X-Embeds: Ace3, LibDataBroker-1.1, LibDBIcon-1.0
