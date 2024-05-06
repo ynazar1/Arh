@@ -1,5 +1,5 @@
 ## Interface: 100206
-## Title: Arhaeology Helper |cFF0099FF[FanUpdate]|r
+## Title: Archaeology Helper |cFF0099FF[FanUpdate]|r
 ## Author: Biasha and oscarucb wrote it, fans maintained this
 ## Notes: Help you with your excavations with love.
 ## Version: 2.0.6-126
