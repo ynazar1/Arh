@@ -1144,7 +1144,15 @@ function addon:GetPos()
     --local oldmap = GetCurrentMapAreaID()
     --local oldlvl = GetCurrentMapDungeonLevel()
     local oldmap = C_Map.GetBestMapForUnit('player')
+    -- Unable to get map position probably instance
+    if oldmap == nil then
+        oldmap = 0
+    end
     local mappos = C_Map.GetPlayerMapPosition(oldmap, 'player')
+    -- Unable to get map position probably instance
+    if mappos == nil then 
+       return 0,0,oldmap,0
+    end
     local oldcont = C_Map.GetWorldPosFromMapPos(oldmap, mappos)
     local oldlvl = 0
     local map = oldmap
@@ -1266,6 +1274,9 @@ local function CalcAngle(xa, ya, xb, yb)
 end
 
 local function AddPoint(color)
+    if IsInInstance() then
+		return 
+    end
     local jax, jay = addon:GetPosYards()
     a = GetPlayerFacing()
 
@@ -1543,11 +1554,21 @@ function Arh_MainFrame_Init()
         end,
     })
 
+    local PaneBackdrop  = {
+        bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
+        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        tile = true, tileSize = 16, edgeSize = 16,
+        insets = { left = 3, right = 3, top = 5, bottom = 3 }
+    }
+
     minimapIcon:Register(addonName, LDBo, cfg.Minimap)
     minimapIcon:Refresh(addonName)
 
     SetVisible(Arh_MainFrame, cfg.MainFrame.Visible)
     Arh_MainFrame:SetScale(cfg.MainFrame.Scale)
+    Arh_MainFrame:SetBackdrop(PaneBackdrop)
+    Arh_MainFrame:SetBackdropColor(0.05,0.05,0.05,0.3)
+	Arh_MainFrame:SetBackdropBorderColor(0.4,0.4,0.4)
     Arh_MainFrame:SetAlpha(cfg.MainFrame.Alpha)
     Arh_MainFrame:SetClampedToScreen(true)
     Arh_MainFrame:ClearAllPoints()
@@ -1764,11 +1785,18 @@ end
 
 local last_update_hud = 0
 function Arh_HudFrame_OnUpdate(frame, elapsed)
+    if IsInInstance() then
+		return 
+    end
     -- I'M MOVING
     last_update_hud = last_update_hud + elapsed
     if last_update_hud > 0.05 then
 
         local pa = GetPlayerFacing()
+        -- Unable to get good data probably zone change
+        if pa == nil then
+            pa = 0
+        end
         local japx, japy = addon:GetPosYards()
         addon:UpdateCons(japx, japy, pa)
 
