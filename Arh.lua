@@ -210,7 +210,11 @@ function addon:CheckSuppress()
 end
 
 function addon:Config()
-    InterfaceOptionsFrame_OpenToCategory(addonName)
+    if Settings and Settings.OpenToCategory then
+        Settings.OpenToCategory(addonName)
+    else
+        InterfaceOptionsFrame_OpenToCategory(addonName)
+    end
 end
 
 function addon:ToggleArch()
@@ -340,8 +344,8 @@ function addon:GetDigsiteTracking()
     local id, active
 
     for i=1,C_Minimap.GetNumTrackingTypes() do
-        local name, texture, a, category = C_Minimap.GetTrackingInfo(i)
-        if name:find("Track Digsites") then
+        local trackingInfo = C_Minimap.GetTrackingInfo(i)
+        if trackingInfo["name"]:find("Track Digsites") then
             id = i
             active = a
             break
@@ -1386,8 +1390,8 @@ function addon:init_travelform()
     end 
   
     if not(spellid == nil)  then
-        mt = string.format("/cast [nostance:3,nocombat] %s", GetSpellInfo(spellid))
-    elseif (GetItemCount(37011, false) or 0) > 0 then -- Magic Broom
+        mt = string.format("/cast [nostance:3,nocombat] %s", C_Spell.GetSpellName(spellid))
+    elseif (C_Item.GetItemCount(37011, false) or 0) > 0 then -- Magic Broom
         mt = "/use item:37011"
     end
     for id, button in ipairs(addon.colorButton) do
@@ -1605,7 +1609,7 @@ function Arh_MainFrame_Init()
     InitCancelableButton(Arh_MainFrame_ButtonDig)
 
     Arh_MainFrame_ButtonDig.CanceledTexture:SetSize(30, 30)
-    Arh_MainFrame_ButtonDig:SetAttribute("spell", GetSpellInfo(80451))
+    Arh_MainFrame_ButtonDig:SetAttribute("spell", C_Spell.GetSpellName(80451))
     addon:ToggleHUD(cfg.HUD.Visible)
     addon:CheckSuppress()
     addon:init_travelform()
