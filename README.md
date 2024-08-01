@@ -8,7 +8,7 @@ Updated Arh WoW addon. This is a fan-maintained.
 - Works with retail
 - Works with Cataclysm Classic, make sure to use [Gathermate2-classic](https://github.com/Nevcairiel/GatherMate2) with Cataclysm
 
-[Old & Broken Version on Curse](https://www.curseforge.com/wow/addons/arh) 
+[We are on Curseforge!!!](https://www.curseforge.com/wow/addons/arh-fan-update) 
 
 ### Archaeology Helper accelerates your surveying by providing triangulation on a Heads-Up Display (HUD)
 - Convenient Survey Button
@@ -23,8 +23,10 @@ On the HUD you can also see player arrow in the center and very small red circle
 
 ### Installation (Pick one)
 #### Recommended Method: 
-* Use [wowup application](https://wowup.io) and add this repo to pull the latest version.
-#### Manual Method:
+* Use [Curseforge App](https://www.curseforge.com/download/app) and search for 'Archaeology Helper Fan Update'
+* Use [WoWup application](https://wowup.io), then add this repo URL to pull the latest version.
+#### Manual Method (not recommended):
+** Do not checkout the code directly, it will not have the packaged libraries **
 1. Get the latest ```Arh-###.zip``` file from the [releases](https://github.com/ynazar1/Arh/releases) section. 
 2. Unzip the contents, you'll have the folder named ```Arh``` with files inside
 3. Put it into your ```World of Warcraft\_retail_\Interface\AddOns``` directory
