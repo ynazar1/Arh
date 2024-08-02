@@ -1390,7 +1390,7 @@ function addon:init_travelform()
     end 
   
     if not(spellid == nil)  then
-        mt = string.format("/cast [nostance:3,nocombat] %s", C_Spell.GetSpellName(spellid))
+        mt = string.format("/cast [nostance:3,nocombat] %s", C_Spell.GetSpellInfo(spellid).name)
     elseif (C_Item.GetItemCount(37011, false) or 0) > 0 then -- Magic Broom
         mt = "/use item:37011"
     end
@@ -1609,7 +1609,7 @@ function Arh_MainFrame_Init()
     InitCancelableButton(Arh_MainFrame_ButtonDig)
 
     Arh_MainFrame_ButtonDig.CanceledTexture:SetSize(30, 30)
-    Arh_MainFrame_ButtonDig:SetAttribute("spell", C_Spell.GetSpellName(80451))
+    Arh_MainFrame_ButtonDig:SetAttribute("spell", C_Spell.GetSpellInfo(80451).name)
     addon:ToggleHUD(cfg.HUD.Visible)
     addon:CheckSuppress()
     addon:init_travelform()
