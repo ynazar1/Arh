@@ -1,4 +1,4 @@
-## Interface: 100207, 110000, 110002
+## Interface: 110005, 110007, 110100
 ## Title: Archaeology Helper |cFF0099FF[FanUpdate]|r
 ## Author: Biasha and oscarucb wrote it, fans maintained this
 ## Notes: Help you with your excavations with love.
