@@ -1,8 +1,8 @@
-## Interface: 110005, 110007, 110100
+## Interface: 110100, 110105
 ## Title: Archaeology Helper |cFF0099FF[FanUpdate]|r
 ## Author: Biasha and oscarucb wrote it, fans maintained this
 ## Notes: Help you with your excavations with love.
-## Version: 2.0.8-1100
+## Version: 2.0.8-1115
 ## DefaultState: Enabled
 ## OptionalDeps: GatherMate2, LibDataBroker-1.1, LibDBIcon-1.0
 ## X-Embeds: Ace3, LibDataBroker-1.1, LibDBIcon-1.0
@@ -10,7 +10,6 @@
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
 ## IconTexture: Interface\AddOns\Arh\img\shovel.tga
-
 
 ## Order Matters
 embeds.xml
