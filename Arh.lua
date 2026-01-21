@@ -12,6 +12,7 @@ local minimapIcon = LibStub("LibDBIcon-1.0")
 local LDB, LDBo
 
 local cfg = nil
+local categoryID = nil
 
 local ARH_GREEN = 1
 local ARH_YELLOW = 2
@@ -211,7 +212,19 @@ end
 
 function addon:Config()
     if Settings and Settings.OpenToCategory then
-        Settings.OpenToCategory(addonName)
+        if categoryID then
+            Settings.OpenToCategory(categoryID)
+        elseif Settings.GetCategory then
+            local category = Settings.GetCategory("Arh")
+            if category and category.ID then
+                categoryID = category.ID
+                Settings.OpenToCategory(categoryID)
+            else
+                InterfaceOptionsFrame_OpenToCategory(addonName)
+            end
+        else
+            InterfaceOptionsFrame_OpenToCategory(addonName)
+        end
     else
         InterfaceOptionsFrame_OpenToCategory(addonName)
     end
@@ -1531,7 +1544,17 @@ function Arh_MainFrame_Init()
     Config = LibStub("AceConfig-3.0")
     ConfigDialog = LibStub("AceConfigDialog-3.0")
     Config:RegisterOptionsTable("Archaeology Helper", OptionsTable, "arhcfg")
-    ConfigDialog:AddToBlizOptions("Archaeology Helper", "Arh")
+    local _, id = ConfigDialog:AddToBlizOptions("Archaeology Helper", "Arh")
+    if Settings and Settings.OpenToCategory then
+        if id and type(id) == "number" then
+            categoryID = id
+        elseif Settings.GetCategory then
+            local category = Settings.GetCategory("Arh")
+            if category and category.ID then
+                categoryID = category.ID
+            end
+        end
+    end
 
     LDB = LibStub:GetLibrary("LibDataBroker-1.1",true)
     LDBo = LDB:NewDataObject(addonName, {
